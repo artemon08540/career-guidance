@@ -1,22 +1,28 @@
 import React from 'react';
-import { Container, AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home'; // Головна сторінка
+/*import Specialities from './pages/Specialities'; // Сторінка "Спеціальності"*/
+import Test from './pages/Test'; // Сторінка "Тест"
 
 const App = () => (
-  <Container maxWidth="lg">
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6">Career Guidance</Typography>
-      </Toolbar>
-    </AppBar>
-    <Box mt={4}>
-      <Typography variant="h4" gutterBottom>
-        Ласкаво просимо до Career Guidance
-      </Typography>
-      <Button variant="contained" color="primary">
-        Розпочати тест
-      </Button>
-    </Box>
-  </Container>
+  <Router>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Шапка сайту */}
+      <Header />
+
+      {/* Основний вміст сторінки */}
+      <main style={{ flex: 1, padding: '20px' }}>
+        <Routes>
+          <Route path="/" element={<Home />} /> {/* Головна сторінка */}
+        </Routes>
+      </main>
+
+      {/* Підвал сайту */}
+      <Footer />
+    </div>
+  </Router>
 );
 
 export default App;
