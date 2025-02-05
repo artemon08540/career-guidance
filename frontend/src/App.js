@@ -1,30 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Main from './components/Main';
 import Footer from './components/Footer';
-import Home from './pages/Home'; // Головна сторінка
-import Specialities from './pages/Specialities'; // Сторінка "Спеціальності"*/
-import Test from './pages/Test'; // Сторінка "Тест"
 
-const App = () => (
-  <Router>
+const App = () => {
+  return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Шапка сайту */}
       <Header />
-
-      {/* Основний вміст сторінки */}
-      <main style={{ flex: 1, padding: '20px' }}>
-        <Routes>
-          <Route path="/" element={<Home />} /> {/* Головна сторінка */}
-          <Route path="/specialities" element={<Specialities />} /> {/* Спеціальності */}
-          <Route path="/test" element={<Test />} /> {/* Тест */}
-        </Routes>
-      </main>
-
-      {/* Підвал сайту */}
+      <Main />
       <Footer />
     </div>
-  </Router>
-);
+  );
+};
 
 export default App;

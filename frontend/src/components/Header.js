@@ -1,21 +1,55 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import LoginModal from './LoginModal';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/material';
 
 const Header = () => {
+  const [specialitiesAnchor, setSpecialitiesAnchor] = useState(null);
+
+  const openSpecialitiesMenu = (event) => setSpecialitiesAnchor(event.currentTarget);
+  const closeSpecialitiesMenu = () => setSpecialitiesAnchor(null);
+
   return (
-    <AppBar position="static" color="primary">
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+    <Box>
+      {/* Верхня частина з логотипом та текстом */}
+      <Box sx={{ bgcolor: '#FFFFFF', color: '#005782', p: 2, display: 'flex', alignItems: 'center' }}>
+        <img
+          src="/images/logo.png"
+          alt="University Logo"
+          style={{ height: '50px', marginRight: '10px' }}
+        />
+        <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
           Профорієнтація абітурієнтів
         </Typography>
-        <Button color="inherit">Головна</Button>
-        <Button color="inherit">Спеціальності</Button>
-        <Button color="inherit">Університет</Button>
-        <Button color="inherit">Тест</Button>
-        <LoginModal /> {/* Використання модального вікна */}
-      </Toolbar>
-    </AppBar>
+      </Box>
+
+      {/* Навігаційне меню */}
+      <AppBar position="static" sx={{ bgcolor: '#005782', color: '#FFFFFF' }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <div>
+            <Button color="inherit" sx={{ marginRight: '10px' }}>
+              Головна
+            </Button>
+            <Button color="inherit" onClick={openSpecialitiesMenu} sx={{ marginRight: '10px' }}>
+              Спеціальності
+            </Button>
+            <Menu
+              anchorEl={specialitiesAnchor}
+              open={Boolean(specialitiesAnchor)}
+              onClose={closeSpecialitiesMenu}
+            >
+              <MenuItem onClick={closeSpecialitiesMenu}>Комп'ютерна інженерія</MenuItem>
+              <MenuItem onClick={closeSpecialitiesMenu}>Інженерія програмного забезпечення</MenuItem>
+            </Menu>
+            <Button color="inherit" sx={{ marginRight: '10px' }}>
+              Університет
+            </Button>
+            <Button color="inherit" sx={{ marginRight: '10px' }}>
+              Тест
+            </Button>
+          </div>
+          <Button color="inherit">Увійти</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
