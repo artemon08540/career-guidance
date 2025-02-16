@@ -6,7 +6,7 @@ const theme = createTheme({
     secondary: { main: '#ffcc00' },
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
+    fontFamily: '"Inter", sans-serif',
   },
 });
 

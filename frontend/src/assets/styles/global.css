@@ -1,0 +1,136 @@
+/* Глобальні стилі */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Шапка сайту */
+header {
+    background-color: #005782; /* Синій фон */
+    color: white;
+    padding: 20px 40px; /* Відступи навколо шапки */
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column; /* Розміщення елементів у вертикальній колонці */
+    align-items: flex-start; /* Вирівнювання тексту та логотипу ліворуч */
+    gap: 20px; /* Відстань між блоками */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Відстань між логотипом і текстом */
+}
+
+.logo img {
+    height: 60px; /* Розмір логотипа */
+}
+
+.logo .site-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 44px;
+    font-weight: 600; /* Напівжирний текст */
+    color: white;
+}
+
+.navigation ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 30px; /* Відстань між пунктами меню */
+}
+
+.navigation ul li a {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px; /* Розмір шрифту */
+    font-weight: 500; /* Напівжирний текст */
+    color: white;
+    text-decoration: none;
+}
+
+.navigation ul li a:hover {
+    text-decoration: underline;
+}
+
+
+/* Слайдер */
+/* При наведенні на область слайдера показуються стрілки */
+.slider-container:hover .slider-arrow {
+    opacity: 1;
+  }
+  
+  /* При наведенні курсору на стрілку вона підсвічується */
+  .slider-arrow:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+
+/* Інформаційний блок */
+.info-block {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-block h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.info-block p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Футер */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+footer .footer-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+footer .university-info {
+    flex: 1;
+    margin-right: 20px;
+}
+
+footer .university-info img {
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+footer .social-icons {
+    display: flex;
+    align-items: center;
+}
+
+footer .social-icons a {
+    margin: 0 5px;
+}
+
+footer .social-icons img {
+    height: 30px;
+}
+
+
+
+  

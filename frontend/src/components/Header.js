@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/material';
+import headerStyles from '../assets/styles/HeaderStyles'; // Імпортуємо стилі
 
 const Header = () => {
   const [specialitiesAnchor, setSpecialitiesAnchor] = useState(null);
@@ -10,27 +11,19 @@ const Header = () => {
   return (
     <Box>
       {/* Верхня частина з логотипом та текстом */}
-      <Box sx={{ bgcolor: '#FFFFFF', color: '#005782', p: 2, display: 'flex', alignItems: 'center' }}>
-        <img
-          src="/images/logo.png"
-          alt="University Logo"
-          style={{ height: '50px', marginRight: '10px' }}
-        />
-        <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
+      <Box sx={headerStyles.logoContainer}>
+        <img src="/images/logo.png" alt="University Logo" style={headerStyles.logo} />
+        <Typography variant="h5" component="div" sx={headerStyles.title}>
           Профорієнтація абітурієнтів
         </Typography>
       </Box>
 
       {/* Навігаційне меню */}
-      <AppBar position="static" sx={{ bgcolor: '#005782', color: '#FFFFFF' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+      <AppBar position="static" sx={headerStyles.appBar}>
+        <Toolbar sx={headerStyles.toolbar}>
           <div>
-            <Button color="inherit" sx={{ marginRight: '10px' }}>
-              Головна
-            </Button>
-            <Button color="inherit" onClick={openSpecialitiesMenu} sx={{ marginRight: '10px' }}>
-              Спеціальності
-            </Button>
+            <Button color="inherit" sx={headerStyles.button}>Головна</Button>
+            <Button color="inherit" onClick={openSpecialitiesMenu} sx={headerStyles.button}>Спеціальності</Button>
             <Menu
               anchorEl={specialitiesAnchor}
               open={Boolean(specialitiesAnchor)}
@@ -39,14 +32,10 @@ const Header = () => {
               <MenuItem onClick={closeSpecialitiesMenu}>Комп'ютерна інженерія</MenuItem>
               <MenuItem onClick={closeSpecialitiesMenu}>Інженерія програмного забезпечення</MenuItem>
             </Menu>
-            <Button color="inherit" sx={{ marginRight: '10px' }}>
-              Університет
-            </Button>
-            <Button color="inherit" sx={{ marginRight: '10px' }}>
-              Тест
-            </Button>
+            <Button color="inherit" sx={headerStyles.button}>Університет</Button>
+            <Button color="inherit" sx={headerStyles.button}>Тест</Button>
           </div>
-          <Button color="inherit">Увійти</Button>
+          <Button color="inherit" sx={headerStyles.button}>Увійти</Button>
         </Toolbar>
       </AppBar>
     </Box>

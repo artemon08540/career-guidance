@@ -1,22 +1,23 @@
 import React from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
+import footerStyles from '../assets/styles/FooterStyles';
 
 const Footer = () => {
   return (
-    <Box sx={{ bgcolor: '#005782', color: 'white', py: 2, mt: 4 }}>
+    <Box sx={footerStyles.container}>
       <Container>
-        <Grid container spacing={2}>
+        <Grid container spacing={footerStyles.gridContainer.spacing}>
           <Grid item xs={12} md={6}>
-            <Typography>Український державний університет науки і технологій
-            49010, Україна, м. Дніпро, вул. Лазаряна, 2</Typography>
+            <Typography>Український державний університет науки і технологій</Typography>
+            <Typography>49010, Україна, м. Дніпро, вул. Лазаряна, 2</Typography>
             <Typography>Телефон: +38 123 456 78 90</Typography>
           </Grid>
-          <Grid item xs={12} md={6} textAlign={{ xs: 'left', md: 'right' }}>
+          <Grid item xs={12} md={6} sx={footerStyles.textAlignRight}>
             <Typography>Соціальні мережі:</Typography>
             <Typography>
-              <a href="#" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Facebook</a>
-              <a href="#" style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}>Telegram</a>
-              <a href="#" style={{ color: 'white', textDecoration: 'none' }}>Instagram</a>
+              <a href="#" style={footerStyles.link}>Facebook</a>
+              <a href="#" style={footerStyles.link}>Telegram</a>
+              <a href="#" style={footerStyles.link}>Instagram</a>
             </Typography>
           </Grid>
         </Grid>
