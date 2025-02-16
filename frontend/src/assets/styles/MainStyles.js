@@ -15,6 +15,7 @@ const mainStyles = {
   imageContainer: {
     position: 'relative', // Важливо для позиціонування стрілок
     width: '100%',
+    overflow: 'hidden', // Запобігає виходу стрілок за межі контейнера
   },
   image: {
     width: '100%',
@@ -47,7 +48,7 @@ const mainStyles = {
     position: 'absolute',
     top: 0,
     width: '60px', // Прямокутна стрілка на всю висоту
-    height: '100%',
+    height: '100vh', // Обмеження висоти стрілок висотою слайдера
     background: 'rgba(0, 0, 0, 0.2)', // Напівпрозорий фон
     display: 'flex',
     alignItems: 'center',
