@@ -1,14 +1,14 @@
 const mainStyles = {
   container: {
     mt: 4,
-    height: '100vh',
+    minHeight: '100vh',
     display: 'flex',
     marginBottom: 0,
     paddingBottom: 0,
     alignItems: 'center'
   },
   gridContainer: {
-    height: '100vh',
+    minHeight: '100vh', // ✅ замість height
     display: 'flex',
     alignItems: 'stretch',
   },
@@ -19,7 +19,7 @@ const mainStyles = {
   },
   image: {
     width: '100%',
-    height: '100vh',
+    minHeight: '100vh',
     objectFit: 'cover',
     borderRadius: '0px',
   },
@@ -28,7 +28,7 @@ const mainStyles = {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    height: '100%',
+    minHeight: '100vh',
     padding: '40px',
     boxSizing: 'border-box',
   },
@@ -48,7 +48,7 @@ const mainStyles = {
     position: 'absolute',
     top: 0,
     width: '60px', // Прямокутна стрілка на всю висоту
-    height: '100vh', // Обмеження висоти стрілок висотою слайдера
+    minHeight: '100vh', // Обмеження висоти стрілок висотою слайдера
     background: 'rgba(0, 0, 0, 0.2)', // Напівпрозорий фон
     display: 'flex',
     alignItems: 'center',
