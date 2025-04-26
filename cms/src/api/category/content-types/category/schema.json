@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categories",
+  "info": {
+    "singularName": "category",
+    "pluralName": "categories",
+    "displayName": "Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "vector": {
+      "type": "json"
+    },
+    "isVerified": {
+      "type": "boolean"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "admin",
+        "expert"
+      ]
+    },
+    "expert_answers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::expert-answer.expert-answer",
+      "mappedBy": "category"
+    }
+  }
+}
