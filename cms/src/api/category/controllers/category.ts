@@ -4,15 +4,16 @@ export default factories.createCoreController('api::category.category', ({ strap
   async recalculate(ctx) {
     const { id } = ctx.params;
 
-    // Отримуємо всі відповіді експертів для цієї категорії
+    // Отримуємо тільки підтверджені відповіді експертів для цієї категорії
     const expertAnswers = await strapi.entityService.findMany('api::expert-answer.expert-answer', {
       filters: {
         category: id,
+        isConfirmed: true, // Додаємо перевірку!
       },
     });
 
     if (!expertAnswers.length) {
-      return ctx.badRequest('No expert answers found for this category.');
+      return ctx.badRequest('No confirmed expert answers found for this category.');
     }
 
     // Витягуємо всі масиви відповідей
@@ -48,7 +49,7 @@ export default factories.createCoreController('api::category.category', ({ strap
 
     ctx.body = { 
       message: 'Category vector recalculated successfully.',
-      newVector: avgVector, // Додаємо виведення нового вектору для зручності
+      newVector: avgVector,
     };
   }
 }));

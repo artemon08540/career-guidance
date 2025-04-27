@@ -26,6 +26,10 @@
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "expert_answers"
+    },
+    "isConfirmed": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
