@@ -3,7 +3,7 @@ import theme from './theme';
 import { ThemeProvider } from '@mui/material/styles';
 import './assets/styles/global.css';
 
-import Header from './components/Header';
+import Header from './components/Header.tsx';
 import Main from './components/Main';
 import Footer from './components/Footer';
 

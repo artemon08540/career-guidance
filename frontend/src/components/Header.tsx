@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Box, Dialog } from '@mui/material';
 import headerStyles from '../assets/styles/HeaderStyles'; // Імпортуємо стилі
+import LoginForm from './LoginForm.tsx'; // Імпортуємо форму логіну
+import TestPage from './TestPage.tsx'; // Імпортуємо форму тесту
 
 const Header = () => {
-  const [specialitiesAnchor, setSpecialitiesAnchor] = useState(null);
-  const [subMenuAnchor, setSubMenuAnchor] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [specialitiesAnchor, setSpecialitiesAnchor] = useState<null | HTMLElement>(null);
+  const [subMenuAnchor, setSubMenuAnchor] = useState<null | HTMLElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  
+  const [loginOpen, setLoginOpen] = useState(false); // Стан для відкриття діалогу логіну
+  const [testOpen, setTestOpen] = useState(false);   // Стан для відкриття діалогу тесту
 
-  const openSpecialitiesMenu = (event) => setSpecialitiesAnchor(event.currentTarget);
+  const openSpecialitiesMenu = (event: React.MouseEvent<HTMLElement>) => setSpecialitiesAnchor(event.currentTarget);
   const closeSpecialitiesMenu = () => {
     setSpecialitiesAnchor(null);
     setSubMenuAnchor(null);
     setSelectedCategory(null);
   };
 
-  const openSubMenu = (event, category) => {
+  const openSubMenu = (event: React.MouseEvent<HTMLElement>, category: string) => {
     setSubMenuAnchor(event.currentTarget);
     setSelectedCategory(category);
   };
@@ -23,6 +28,12 @@ const Header = () => {
     setSubMenuAnchor(null);
     setSelectedCategory(null);
   };
+
+  const openLoginDialog = () => setLoginOpen(true);
+  const closeLoginDialog = () => setLoginOpen(false);
+
+  const openTestDialog = () => setTestOpen(true);
+  const closeTestDialog = () => setTestOpen(false);
 
   const specialities = [
     {
@@ -161,11 +172,25 @@ const Header = () => {
               ))}
             </Menu>
             <Button color="inherit" sx={headerStyles.button}>Університет</Button>
-            <Button color="inherit" sx={headerStyles.button}>Тест</Button>
+            <Button color="inherit" sx={headerStyles.button} onClick={openTestDialog}>
+              Тест
+            </Button>
           </div>
-          <Button color="inherit" sx={headerStyles.button}>Увійти</Button>
+          <Button color="inherit" sx={headerStyles.button} onClick={openLoginDialog}>
+            Увійти
+          </Button>
         </Toolbar>
       </AppBar>
+
+      {/* Діалогове вікно логіну */}
+      <Dialog open={loginOpen} onClose={closeLoginDialog}>
+        <LoginForm />
+      </Dialog>
+
+      {/* Діалогове вікно тесту */}
+      <Dialog open={testOpen} onClose={closeTestDialog} maxWidth="md" fullWidth>
+        <TestPage />
+      </Dialog>
     </Box>
   );
 };
