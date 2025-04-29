@@ -7,9 +7,10 @@ export default factories.createCoreController('api::category.category', ({ strap
     // Отримуємо тільки підтверджені відповіді експертів для цієї категорії
     const expertAnswers = await strapi.entityService.findMany('api::expert-answer.expert-answer', {
       filters: {
-        category: id,
-        isConfirmed: true, // Додаємо перевірку!
+        'category.id': id,   // правильно через "category.id"
+        isConfirmed: true,   // беремо тільки підтверджені
       },
+      populate: '*',         // або конкретно ['user'] якщо потрібно тільки user
     });
 
     if (!expertAnswers.length) {
@@ -19,7 +20,7 @@ export default factories.createCoreController('api::category.category', ({ strap
     // Витягуємо всі масиви відповідей
     const allVectors = expertAnswers
       .map(answer => answer.answers)
-      .filter((ans): ans is number[] => Array.isArray(ans) && ans.every(num => typeof num === 'number')) as number[][];
+      .filter((ans): ans is number[] => Array.isArray(ans) && ans.every(num => typeof num === 'number'));
 
     if (allVectors.length === 0 || allVectors[0].length === 0) {
       return ctx.badRequest('No valid answer vectors found.');

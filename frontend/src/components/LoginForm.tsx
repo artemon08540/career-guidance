@@ -25,6 +25,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         localStorage.setItem('jwt', data.jwt);
+        localStorage.setItem('user', JSON.stringify(data.user)); // 🔥 Зберігаємо базову інформацію
         setSuccess(true);
       } else {
         setError(data.error?.message || 'Login failed');

@@ -18,18 +18,16 @@ const TestPage: React.FC = () => {
         const response = await fetch('http://localhost:1337/api/questions');
         const data = await response.json();
 
-        // Витягуємо реальні питання
         const loadedQuestions = data.data.map((item: any) => ({
           id: item.id,
           text: item.text,
           order: item.order,
         }));
 
-        // Сортуємо за порядком (order)
         loadedQuestions.sort((a: Question, b: Question) => a.order - b.order);
 
         setQuestions(loadedQuestions);
-        setAnswers(Array(loadedQuestions.length).fill(3)); // Початково всі відповіді 3
+        setAnswers(Array(loadedQuestions.length).fill(3));
         setLoading(false);
       } catch (error) {
         console.error('Помилка при завантаженні питань:', error);
@@ -50,20 +48,16 @@ const TestPage: React.FC = () => {
       const token = localStorage.getItem('jwt');
   
       if (!token) {
-        // Користувач анонімний — рахуємо результат тесту
-  
-        // Завантажити категорії
+        // Анонімний користувач — обраховуємо результат
         const response = await fetch('http://localhost:1337/api/categories');
         const data = await response.json();
   
-        // Парсимо категорії
         const categories = data.data.map((item: any) => ({
           id: item.id,
           name: item.name,
           vector: item.vector,
         }));
   
-        // Розрахунок косинусної схожості
         const cosineSimilarity = (vecA: number[], vecB: number[]) => {
           const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
           const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
@@ -72,28 +66,55 @@ const TestPage: React.FC = () => {
         };
   
         let maxSimilarity = -1;
-        let bestCategory = '';
+        let bestCategoryName = '';
   
         for (const category of categories) {
           if (!category.vector || !Array.isArray(category.vector)) continue;
           const similarity = cosineSimilarity(answers, category.vector);
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
-            bestCategory = category.name;
+            bestCategoryName = category.name;
           }
         }
   
-        alert(`Результат тесту: Вам підходить категорія "${bestCategory}"!`);
+        alert(`Результат тесту: Вам підходить категорія "${bestCategoryName}"!`);
       } else {
-        // Якщо буде час, тут ми реалізуємо надсилання відповідей експерта
-        alert('Ви увійшли як експерт. Скоро буде реалізована відправка відповідей.');
+        const user = localStorage.getItem('user');
+        const parsedUser = user ? JSON.parse(user) : null;
+        const userId = parsedUser?.id;
+  
+        if (!userId) {
+          alert('Помилка: Не знайдено користувача для відповіді.');
+          return;
+        }
+  
+        const postResponse = await fetch('http://localhost:1337/api/expert-answers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            data: {
+              answers: answers,
+              user: userId,
+            },
+          }),
+        });
+  
+        if (postResponse.ok) {
+          alert('Ваші відповіді успішно надіслані на перевірку адміністратору!');
+        } else {
+          const errorText = await postResponse.text();
+          console.error('Помилка сервера:', errorText);
+          alert('Помилка при надсиланні відповіді експерта: ' + errorText);
+        }
       }
     } catch (error) {
-      console.error('Помилка під час завершення тесту:', error);
+      console.error('Помилка завершення тесту:', error);
       alert('Сталася помилка при завершенні тесту.');
     }
-  };
-  
+  };  
 
   if (loading) {
     return <Typography>Завантаження тесту...</Typography>;
