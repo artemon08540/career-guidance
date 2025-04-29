@@ -24,7 +24,7 @@ const TestPage: React.FC = () => {
           order: item.order,
         }));
 
-        loadedQuestions.sort((a: Question, b: Question) => a.order - b.order);
+        loadedQuestions.sort((a, b) => a.order - b.order);
 
         setQuestions(loadedQuestions);
         setAnswers(Array(loadedQuestions.length).fill(3));
@@ -43,51 +43,61 @@ const TestPage: React.FC = () => {
     setAnswers(updatedAnswers);
   };
 
+  const cosineSimilarity = (vecA: number[], vecB: number[]) => {
+    const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+    const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+    const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+    return dotProduct / (magA * magB);
+  };
+
   const finishTest = async () => {
     try {
       const token = localStorage.getItem('jwt');
-  
+
       if (!token) {
-        // Анонімний користувач — обраховуємо результат
         const response = await fetch('http://localhost:1337/api/categories');
         const data = await response.json();
-  
+
         const categories = data.data.map((item: any) => ({
           id: item.id,
           name: item.name,
           vector: item.vector,
         }));
-  
-        const cosineSimilarity = (vecA: number[], vecB: number[]) => {
-          const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
-          const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
-          const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
-          return dotProduct / (magA * magB);
-        };
-  
+
         let maxSimilarity = -1;
         let bestCategoryName = '';
-  
+
         for (const category of categories) {
-          if (!category.vector || !Array.isArray(category.vector)) continue;
+          if (!Array.isArray(category.vector)) continue;
+          if (category.vector.length !== answers.length) {
+            console.warn(`❌ Категорія ${category.name} має некоректну довжину vector`);
+            continue;
+          }
+
           const similarity = cosineSimilarity(answers, category.vector);
+          console.log(`✅ ${category.name} similarity =`, similarity);
+
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
             bestCategoryName = category.name;
           }
         }
-  
-        alert(`Результат тесту: Вам підходить категорія "${bestCategoryName}"!`);
+
+        if (bestCategoryName) {
+          alert(`Результат тесту: Вам підходить категорія "${bestCategoryName}"!`);
+        } else {
+          alert('На жаль, не вдалося підібрати категорію. Можливо, немає валідних еталонних даних.');
+        }
       } else {
         const user = localStorage.getItem('user');
         const parsedUser = user ? JSON.parse(user) : null;
         const userId = parsedUser?.id;
-  
-        if (!userId) {
-          alert('Помилка: Не знайдено користувача для відповіді.');
+
+        if (!userId || !parsedUser?.category?.id) {
+          alert('Помилка: Не знайдено користувача або категорії для відповіді.');
           return;
         }
-  
+
         const postResponse = await fetch('http://localhost:1337/api/expert-answers', {
           method: 'POST',
           headers: {
@@ -96,25 +106,26 @@ const TestPage: React.FC = () => {
           },
           body: JSON.stringify({
             data: {
-              answers: answers,
+              answers,
               user: userId,
+              category: parsedUser.category.id,
             },
           }),
         });
-  
+
         if (postResponse.ok) {
           alert('Ваші відповіді успішно надіслані на перевірку адміністратору!');
         } else {
           const errorText = await postResponse.text();
-          console.error('Помилка сервера:', errorText);
+          console.error('Помилка відповіді сервера:', errorText);
           alert('Помилка при надсиланні відповіді експерта: ' + errorText);
         }
       }
     } catch (error) {
-      console.error('Помилка завершення тесту:', error);
+      console.error('Помилка під час завершення тесту:', error);
       alert('Сталася помилка при завершенні тесту.');
     }
-  };  
+  };
 
   if (loading) {
     return <Typography>Завантаження тесту...</Typography>;
