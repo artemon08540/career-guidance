@@ -93,8 +93,8 @@ const TestPage: React.FC = () => {
         const parsedUser = user ? JSON.parse(user) : null;
         const userId = parsedUser?.id;
 
-        if (!userId || !parsedUser?.category?.id) {
-          alert('Помилка: Не знайдено користувача або категорії для відповіді.');
+        if (!userId) {
+          alert('Помилка: Не знайдено користувача для відповіді.');
           return;
         }
 
@@ -108,10 +108,10 @@ const TestPage: React.FC = () => {
             data: {
               answers,
               user: userId,
-              category: parsedUser.category.id,
             },
           }),
         });
+        
 
         if (postResponse.ok) {
           alert('Ваші відповіді успішно надіслані на перевірку адміністратору!');

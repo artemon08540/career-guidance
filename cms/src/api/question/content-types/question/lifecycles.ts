@@ -2,36 +2,42 @@ export default {
   async afterCreate(event) {
     const { result } = event;
     console.log(`📌 Питання створено: ID ${result.id}`);
-
-    // Пропускаємо, якщо чернетка
+  
+    // Якщо створено як чернетка, лише публікуємо, не змінюємо вектори
     if (!result.publishedAt) {
-      console.log('🟡 Чернетка. Вектори не оновлюємо.');
-      return;
+      await strapi.entityService.update('api::question.question', result.id, {
+        data: { publishedAt: new Date() },
+      });
+      console.log('✅ Питання було чернеткою, автоматично опубліковано.');
+      return; // важливо!
     }
-
+  
     const categories = await strapi.entityService.findMany('api::category.category');
     for (const category of categories) {
       const currentVector = Array.isArray(category.vector) ? category.vector : [];
       const updatedVector = [...currentVector, 3];
-
+  
       await strapi.entityService.update('api::category.category', category.id, {
-        data: { vector: updatedVector },
+        data: {
+          vector: updatedVector,
+          publishedAt: category.publishedAt || new Date(),
+        },
       });
     }
-
+  
     const expertAnswers = await strapi.entityService.findMany('api::expert-answer.expert-answer');
     for (const answer of expertAnswers) {
       const currentAnswers = Array.isArray(answer.answers) ? answer.answers : [];
       const updatedAnswers = [...currentAnswers, 3];
-
+  
       await strapi.entityService.update('api::expert-answer.expert-answer', answer.id, {
         data: { answers: updatedAnswers },
       });
     }
-
-    console.log('✅ Після створення питання — вектори оновлено.');
+  
+    console.log('✅ Після створення питання — вектори оновлено та категорії опубліковано.');
   },
-
+  
   async afterDelete(event) {
     const { result } = event;
     console.log(`❌ Питання видалено: ID ${result.id}`);
@@ -64,6 +70,8 @@ export default {
         });
       }
     }
+
+    console.log('✅ Після видалення питання — вектори оновлено.');
   },
 
   async afterUpdate(event) {
@@ -74,7 +82,7 @@ export default {
     const isNowPublished = result.publishedAt !== null;
 
     if (wasDraft && isNowPublished) {
-      console.log('📢 Питання щойно опубліковане — додаємо "3" у вектори');
+      console.log('📢 Питання щойно опубліковане — додаємо \"3\" у вектори');
 
       const categories = await strapi.entityService.findMany('api::category.category');
       for (const category of categories) {
@@ -82,7 +90,10 @@ export default {
         const updatedVector = [...currentVector, 3];
 
         await strapi.entityService.update('api::category.category', category.id, {
-          data: { vector: updatedVector },
+          data: {
+            vector: updatedVector,
+            publishedAt: category.publishedAt || new Date(),
+          },
         });
       }
 
@@ -97,7 +108,6 @@ export default {
       }
     }
 
-    // Перестановка order
     if (params.data.order !== undefined && result.order !== undefined && params.data.order !== result.order) {
       console.log(`🔁 Зміна порядку: ${params.data.order} → ${result.order}`);
 
