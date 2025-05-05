@@ -70,12 +70,12 @@ const TestPage: React.FC = () => {
         for (const category of categories) {
           if (!Array.isArray(category.vector)) continue;
           if (category.vector.length !== answers.length) {
-            console.warn(`❌ Категорія ${category.name} має некоректну довжину vector`);
+            console.warn(` Категорія ${category.name} має некоректну довжину vector`);
             continue;
           }
 
           const similarity = cosineSimilarity(answers, category.vector);
-          console.log(`✅ ${category.name} similarity =`, similarity);
+          console.log(` ${category.name} similarity =`, similarity);
 
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
