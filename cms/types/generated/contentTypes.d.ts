@@ -378,7 +378,7 @@ export interface ApiCategoryVectorEntryCategoryVectorEntry
     singularName: 'category-vector-entry';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'> &

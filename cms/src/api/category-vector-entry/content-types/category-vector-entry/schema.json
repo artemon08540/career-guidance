@@ -5,19 +5,28 @@
     "pluralName": "category-vector-entries",
     "displayName": "Category Vector Entry"
   },
+  "options": {
+    "draftAndPublish": true
+  },
   "attributes": {
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "vectorEntries",
-      "required": true
+      "required": true,
+      "config": {
+        "mainField": "name"
+      }
     },
     "question": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::question.question",
-      "required": true
+      "required": true,
+      "config": {
+        "mainField": "text"
+      }
     },
     "value": {
       "type": "integer",
