@@ -1,31 +1,27 @@
 {
-  "kind": "collectionType",
   "collectionName": "expert_answers",
   "info": {
     "singularName": "expert-answer",
     "pluralName": "expert-answers",
-    "displayName": "ExpertAnswer",
-    "description": ""
+    "displayName": "Expert Answer"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
-    "answers": {
-      "type": "json"
-    },
-    "user": {
+    "expert": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "expert_answers"
+      "target": "plugin::users-permissions.user"
     },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
-      "inversedBy": "expert_answers"
+      "inversedBy": "expertAnswers"
+    },
+    "answers": {
+      "type": "json"
     },
     "isConfirmed": {
       "type": "boolean",

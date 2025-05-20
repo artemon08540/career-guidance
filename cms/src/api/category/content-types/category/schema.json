@@ -1,43 +1,37 @@
 {
-  "kind": "collectionType",
   "collectionName": "categories",
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Category",
-    "description": ""
+    "displayName": "Category"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
-    },
-    "vector": {
-      "type": "json"
+      "type": "string",
+      "required": true
     },
     "isVerified": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "source": {
       "type": "enumeration",
-      "enum": [
-        "admin",
-        "expert"
-      ]
+      "enum": ["admin", "expert"],
+      "default": "admin"
     },
-    "expert_answers": {
+    "vectorEntries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category-vector-entry.category-vector-entry",
+      "mappedBy": "category"
+    },
+    "expertAnswers": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::expert-answer.expert-answer",
-      "mappedBy": "category"
-    },
-    "users": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "plugin::users-permissions.user",
       "mappedBy": "category"
     }
   }

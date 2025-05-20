@@ -1,0 +1,27 @@
+{
+  "collectionName": "category_vector_entries",
+  "info": {
+    "singularName": "category-vector-entry",
+    "pluralName": "category-vector-entries",
+    "displayName": "Category Vector Entry"
+  },
+  "attributes": {
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "vectorEntries",
+      "required": true
+    },
+    "question": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::question.question",
+      "required": true
+    },
+    "value": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}
