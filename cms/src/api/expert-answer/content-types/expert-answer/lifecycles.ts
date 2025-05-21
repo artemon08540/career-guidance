@@ -1,52 +1,50 @@
 export default {
-    async afterUpdate(event) {
-        const { result, params } = event;
+  async afterUpdate(event) {
+    const { result, params } = event;
 
-        if (params.data.isConfirmed === true) {
-            const categoryId = result.category?.id || result.category;
+    // Якщо не було змінено isConfirmed — не оновлюємо
+    if (params.data?.isConfirmed === undefined) return;
 
-            const confirmedAnswers = await strapi.entityService.findMany("api::expert-answer.expert-answer", {
-                filters: {
-                    category: categoryId,
-                    isConfirmed: true
-                }
-            });
+    const categoryId = result.category?.id || result.category;
+    const questionId = result.question?.id || result.question;
 
-            if (confirmedAnswers.length === 0) return;
+    if (!categoryId || !questionId) return;
 
-            const vectors = confirmedAnswers
-                .map((a) => a.answers)
-                .filter((arr): arr is number[] => Array.isArray(arr) && arr.every(v => typeof v === 'number'));
+    // Отримати всі підтверджені експертні відповіді вручну через SQL-style
+    const confirmedAnswers = await strapi.db
+      .query('api::expert-answer.expert-answer')
+      .findMany({
+        where: {
+          category: categoryId,
+          question: questionId,
+          isConfirmed: true,
+        },
+        select: ['value'],
+      });
 
-            if (vectors.length === 0) return;
+    if (!confirmedAnswers.length) return;
 
-            const length = vectors[0].length;
-            const avg = new Array(length).fill(0);
+    // Середнє арифметичне
+    const average =
+      confirmedAnswers.reduce((sum, ans) => sum + (ans.value || 0), 0) / confirmedAnswers.length;
 
-            for (const vec of vectors) {
-                for (let i = 0; i < length; i++) {
-                    avg[i] += vec[i];
-                }
-            }
+    // Оновити CategoryVectorEntry
+    const entry = await strapi.db
+      .query('api::category-vector-entry.category-vector-entry')
+      .findOne({
+        where: {
+          category: categoryId,
+          question: questionId,
+        },
+      });
 
-            for (let i = 0; i < length; i++) {
-                avg[i] = Math.round(avg[i] / vectors.length);
-            }
-
-            // оновлюємо vectorEntries
-            const entries: any[] = await strapi.entityService.findMany("api::category-vector-entry.category-vector-entry", {
-                filters: { category: categoryId },
-                populate: ["question"]
-            });
-
-            for (let i = 0; i < avg.length; i++) {
-                const entry = entries.find((e) => e.question?.order === i + 1);
-                if (entry) {
-                    await strapi.entityService.update("api::category-vector-entry.category-vector-entry", entry.id, {
-                        data: { value: avg[i] }
-                    });
-                }
-            }
-        }
+    if (entry) {
+      await strapi.db
+        .query('api::category-vector-entry.category-vector-entry')
+        .update({
+          where: { id: entry.id },
+          data: { value: Math.round(average) },
+        });
     }
+  },
 };

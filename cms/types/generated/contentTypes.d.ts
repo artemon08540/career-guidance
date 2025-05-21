@@ -479,6 +479,7 @@ export interface ApiExpertAnswerExpertAnswer
 export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   collectionName: 'questions';
   info: {
+    description: '';
     displayName: 'Question';
     pluralName: 'questions';
     singularName: 'question';
