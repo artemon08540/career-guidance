@@ -1,14 +1,10 @@
-export default {
-  async sync(ctx) {
-    const { categoryId } = ctx.request.body;
+import { factories } from '@strapi/strapi';
+import { recalculateCategory } from '../../category/services/recalculateCategory';
 
-    try {
-      await strapi
-        .service('api::category.category')
-        .syncCategoryVectorEntries(strapi, categoryId);
-      ctx.send({ success: true, message: 'Синхронізація завершена' });
-    } catch (err) {
-      ctx.throw(500, 'Помилка синхронізації: ' + err.message);
-    }
+export default factories.createCoreController('api::category.category', ({ strapi }) => ({
+  async recalculate(ctx) {
+    const { id } = ctx.params;
+    await recalculateCategory(strapi, id);
+    ctx.body = { message: 'Category vector recalculated successfully.' };
   },
-};
+}));

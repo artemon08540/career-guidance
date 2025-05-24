@@ -1,50 +1,30 @@
+import { recalculateCategory } from '../../../category/services/recalculateCategory';
+
 export default {
   async afterUpdate(event) {
     const { result, params } = event;
 
-    // Якщо не було змінено isConfirmed — не оновлюємо
-    if (params.data?.isConfirmed === undefined) return;
+    if (params.data.isConfirmed === true) {
+      console.log('🧪 LIFECYCLE: ExpertAnswer оновлено!');
+      console.log('🧪 event.params.data:', params.data);
 
-    const categoryId = result.category?.id || result.category;
-    const questionId = result.question?.id || result.question;
+      // Отримуємо повністю оновлену відповідь з заповненою категорією
+      const fullAnswer = await strapi.entityService.findOne(
+        'api::expert-answer.expert-answer',
+        result.id,
+        { populate: ['category'] }
+      );
 
-    if (!categoryId || !questionId) return;
+      console.log('🧪 Populated answer:', fullAnswer);
 
-    // Отримати всі підтверджені експертні відповіді вручну через SQL-style
-    const confirmedAnswers = await strapi.db
-      .query('api::expert-answer.expert-answer')
-      .findMany({
-        where: {
-          category: categoryId,
-          question: questionId,
-          isConfirmed: true,
-        },
-        select: ['value'],
-      });
+      const categoryId = (fullAnswer as any).category?.id;
 
-    if (!confirmedAnswers.length) return;
+      if (!categoryId) {
+        console.warn('⚠️ Немає категорії для цієї відповіді.');
+        return;
+      }
 
-    // Середнє арифметичне
-    const average =
-      confirmedAnswers.reduce((sum, ans) => sum + (ans.value || 0), 0) / confirmedAnswers.length;
-
-    // Оновити CategoryVectorEntry
-    const entry = await strapi.db
-      .query('api::category-vector-entry.category-vector-entry')
-      .findOne({
-        where: {
-          category: categoryId,
-          question: questionId,
-        },
-      });
-
-    if (entry) {
-      await strapi.db
-        .query('api::category-vector-entry.category-vector-entry')
-        .update({
-          where: { id: entry.id },
-          data: { value: Math.round(average) },
-        });
+      await recalculateCategory(strapi, categoryId);
     }
   },
 };

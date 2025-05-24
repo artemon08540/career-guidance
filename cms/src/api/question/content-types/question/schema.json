@@ -13,11 +13,11 @@
   "pluginOptions": {},
   "attributes": {
     "text": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "order": {
-      "type": "integer"
+      "type": "integer",
+      "unique": true
     }
   }
 }

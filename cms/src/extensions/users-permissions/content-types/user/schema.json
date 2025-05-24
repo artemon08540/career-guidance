@@ -70,6 +70,12 @@
       "relation": "oneToMany",
       "target": "api::expert-answer.expert-answer",
       "mappedBy": "user"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "users"
     }
   }
 }
