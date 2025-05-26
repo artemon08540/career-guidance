@@ -13,32 +13,27 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "vector": {
-      "type": "json"
+    "vectorEntries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category-vector-entry.category-vector-entry",
+      "mappedBy": "category"
     },
-    "isVerified": {
-      "type": "boolean"
-    },
-    "source": {
-      "type": "enumeration",
-      "enum": [
-        "admin",
-        "expert"
-      ]
-    },
-    "expert_answers": {
+    "expertAnswers": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::expert-answer.expert-answer",
       "mappedBy": "category"
     },
-    "users": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "plugin::users-permissions.user",
-      "mappedBy": "category"
+    "isVerified": {
+      "type": "boolean",
+      "default": false
+    },
+    "vector": {
+      "type": "json"
     }
   }
 }

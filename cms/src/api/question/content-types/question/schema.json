@@ -13,11 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "text": {
-      "type": "string"
+      "type": "string",
+      "required": true
+    },
+    "vectorEntries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category-vector-entry.category-vector-entry",
+      "mappedBy": "question"
     },
     "order": {
-      "type": "integer",
-      "unique": true
+      "type": "integer"
     }
   }
 }

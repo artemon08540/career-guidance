@@ -369,6 +369,46 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCategoryVectorEntryCategoryVectorEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'category_vector_entries';
+  info: {
+    description: '';
+    displayName: 'CategoryVectorEntry';
+    pluralName: 'category-vector-entries';
+    singularName: 'category-vector-entry';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category-vector-entry.category-vector-entry'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Relation<'manyToOne', 'api::question.question'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    value: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 5;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<3>;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
@@ -384,28 +424,27 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    expert_answers: Schema.Attribute.Relation<
+    expertAnswers: Schema.Attribute.Relation<
       'oneToMany',
       'api::expert-answer.expert-answer'
     >;
-    isVerified: Schema.Attribute.Boolean;
+    isVerified: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::category.category'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    source: Schema.Attribute.Enumeration<['admin', 'expert']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users: Schema.Attribute.Relation<
-      'oneToMany',
-      'plugin::users-permissions.user'
-    >;
     vector: Schema.Attribute.JSON;
+    vectorEntries: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category-vector-entry.category-vector-entry'
+    >;
   };
 }
 
@@ -466,12 +505,16 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
       'api::question.question'
     > &
       Schema.Attribute.Private;
-    order: Schema.Attribute.Integer & Schema.Attribute.Unique;
+    order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
-    text: Schema.Attribute.String;
+    text: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    vectorEntries: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category-vector-entry.category-vector-entry'
+    >;
   };
 }
 
@@ -930,11 +973,9 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -989,6 +1030,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::category-vector-entry.category-vector-entry': ApiCategoryVectorEntryCategoryVectorEntry;
       'api::category.category': ApiCategoryCategory;
       'api::expert-answer.expert-answer': ApiExpertAnswerExpertAnswer;
       'api::question.question': ApiQuestionQuestion;

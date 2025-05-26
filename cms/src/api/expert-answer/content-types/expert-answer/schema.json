@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "answers": {
-      "type": "json"
-    },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
@@ -25,7 +22,10 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::category.category",
-      "inversedBy": "expert_answers"
+      "inversedBy": "expertAnswers"
+    },
+    "answers": {
+      "type": "json"
     },
     "isConfirmed": {
       "type": "boolean",
