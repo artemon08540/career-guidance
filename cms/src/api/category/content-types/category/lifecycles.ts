@@ -65,7 +65,17 @@ async function populateCategoryVectorEntries(categoryId: number): Promise<void> 
 }
 
 export default {
+  // Працює тільки коли створюється Category (не інші моделі!)
+  async afterCreate(event: any) {
+    // Захистимося від «левих» подій
+    if (event.model?.uid !== 'api::category.category') return;
 
+    const { id, isVerified }: Category = event.result;
+    strapi.log.info(`🔔 [afterCreate] Category id=${id}, isVerified=${isVerified}`);
+    if (isVerified) {
+      await populateCategoryVectorEntries(id);
+    }
+  },
 
   // Працює тільки коли оновлюється Category (не інші моделі!)
   async afterUpdate(event: any) {

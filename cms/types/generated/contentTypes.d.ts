@@ -379,7 +379,7 @@ export interface ApiCategoryVectorEntryCategoryVectorEntry
     singularName: 'category-vector-entry';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
@@ -404,8 +404,7 @@ export interface ApiCategoryVectorEntryCategoryVectorEntry
           min: 1;
         },
         number
-      > &
-      Schema.Attribute.DefaultTo<3>;
+      >;
   };
 }
 
@@ -418,7 +417,7 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     singularName: 'category';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
@@ -458,7 +457,7 @@ export interface ApiExpertAnswerExpertAnswer
     singularName: 'expert-answer';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     answers: Schema.Attribute.JSON;
@@ -493,7 +492,7 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
     singularName: 'question';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
