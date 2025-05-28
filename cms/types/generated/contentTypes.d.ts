@@ -397,14 +397,15 @@ export interface ApiCategoryVectorEntryCategoryVectorEntry
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    value: Schema.Attribute.Integer &
+    value: Schema.Attribute.Decimal &
       Schema.Attribute.SetMinMax<
         {
           max: 5;
-          min: 1;
+          min: 0;
         },
         number
-      >;
+      > &
+      Schema.Attribute.DefaultTo<3>;
   };
 }
 
