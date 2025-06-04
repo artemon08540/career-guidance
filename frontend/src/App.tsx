@@ -1,5 +1,6 @@
 import React from 'react';
 import theme from './theme';
+import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import './assets/styles/global.css';
 
@@ -9,7 +10,7 @@ import Footer from './components/Footer';
 
 const App = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', margin: 0, padding: 0 }}>
+    <div className="App">
       <ThemeProvider theme={theme}>
         <Header />
         <Main />

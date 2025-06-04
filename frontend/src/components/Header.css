@@ -1,0 +1,149 @@
+/* src/components/Header.css */
+
+/* ============================
+   1. Toolbar: вирівнювання і падінги
+   ============================ */
+
+.header-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px; /* стандартна висота AppBar у десктопі */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ============================
+   2. Логотип + Назва
+   ============================ */
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* відстань між зображенням і текстом */
+}
+
+.header-logo__img {
+  height: 40px; /* розмір логотипу у десктопі */
+  width: auto;
+}
+
+.header-logo__text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem; /* ~20px */
+  font-weight: 600;
+  color: inherit; /* Успадковує білий color з AppBar (contrastText) */
+  margin: 0;
+}
+
+/* ============================
+   3. Навігаційні кнопки (десктоп)
+   ============================ */
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* відстань між кнопками у десктопі */
+}
+
+.header-nav__button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem; /* ~16px */
+  font-weight: 500;
+  color: inherit; /* Білий текст */
+  text-transform: none;
+  transition: background-color 0.2s ease-in-out;
+  padding: 6px 12px; /* внутрішні відступи */
+  border-radius: 4px; /* щоб виглядало як кнопка */
+}
+
+.header-nav__button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* напівпрозорий білий при наведенні */
+}
+
+.header-nav__button--login {
+  margin-left: 16px; /* відокремити «Увійти» від інших кнопок */
+}
+
+/* ============================
+   4. Іконка меню (мобільна)
+   ============================ */
+
+.header-menu-icon {
+  color: inherit; /* Білий колір для іконки */
+}
+
+/* ============================
+   5. Dropdown‐меню «Спеціальності»
+   ============================ */
+
+/* Основне меню */
+.header-dropdown-menu {
+  margin-top: 8px; /* щоб меню опустилось під кнопку */
+}
+
+/* Пункти‐групи у меню */
+.header-dropdown-menu__item-group {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Підменю (коли наведено) */
+.header-dropdown-submenu {
+  margin-left: 8px;
+}
+
+/* ============================
+   6. Адаптивні корекції
+   ============================ */
+
+/* Смартфони (≤600px) */
+@media (max-width: 600px) {
+  .header-toolbar {
+    min-height: 56px; /* зменшена висота для мобільних */
+  }
+  .header-logo__img {
+    height: 32px; /* зменшений логотип для мобільних */
+  }
+  .header-logo__text {
+    font-size: 1rem; /* ~16px для мобільних */
+  }
+  .header-nav {
+    display: none; /* ховаємо горизонтальні кнопки */
+  }
+}
+
+/* Планшети (601px–959px) */
+@media (min-width: 601px) and (max-width: 959px) {
+  .header-toolbar {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .header-nav {
+    gap: 16px; /* менший gap для планшетів */
+  }
+  .header-logo__img {
+    height: 36px;
+  }
+  .header-logo__text {
+    font-size: 1.1rem; /* ~18px */
+  }
+}
+
+/* Десктоп (≥960px) */
+@media (min-width: 960px) {
+  .header-toolbar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .header-nav {
+    gap: 24px;
+  }
+  .header-logo__img {
+    height: 40px;
+  }
+  .header-logo__text {
+    font-size: 1.25rem; /* ~20px */
+  }
+}

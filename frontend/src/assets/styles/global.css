@@ -1,136 +1,118 @@
-/* Глобальні стилі */
+/* global.css — базові (глобальні) стилі сайту */
+
+/* Фон і колір тексту для всього тіла документа */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
+  background-color: #f8f9fa; /* світлий сірий фон */
+  color: #333;              /* темно-сірий колір тексту */
 }
 
-/* Шапка сайту */
-header {
-    background-color: #005782; /* Синій фон */
-    color: white;
-    padding: 20px 40px; /* Відступи навколо шапки */
+/* Стилізація посилань */
+a {
+  color: #0077cc;       /* основний синій колір для посилань */
+  text-decoration: none;
 }
 
-.header-container {
-    display: flex;
-    flex-direction: column; /* Розміщення елементів у вертикальній колонці */
-    align-items: flex-start; /* Вирівнювання тексту та логотипу ліворуч */
-    gap: 20px; /* Відстань між блоками */
+a:hover,
+a:focus {
+  text-decoration: underline;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Відстань між логотипом і текстом */
+/* Знебарвлюємо маркування списків, щоб потім задавати власні стилі */
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.logo img {
-    height: 60px; /* Розмір логотипа */
+/* Загальні стилі для заголовків */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.logo .site-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 44px;
-    font-weight: 600; /* Напівжирний текст */
-    color: white;
+/* Стилізація зображень, щоб вони не виходили за межі контейнера */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.navigation ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    gap: 30px; /* Відстань між пунктами меню */
+/* ---------------------------------------------
+   Утилітарні класи (за потребою)
+   Навички: .container, .text-center, .mt-*, .mb-*, .d-flex, .justify-center, .align-center
+   --------------------------------------------- */
+
+/* Контейнер з фіксованою максимальною шириною та центруванням */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.navigation ul li a {
-    font-family: 'Inter', sans-serif;
-    font-size: 32px; /* Розмір шрифту */
-    font-weight: 500; /* Напівжирний текст */
-    color: white;
-    text-decoration: none;
+/* Центрування тексту */
+.text-center {
+  text-align: center;
 }
 
-.navigation ul li a:hover {
-    text-decoration: underline;
+/* Відступи зверху */
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
+/* Відступи знизу */
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+/* Flex-контейнери та вирівнювання */
+.d-flex {
+  display: flex;
 }
 
-
-/* Слайдер */
-/* При наведенні на область слайдера показуються стрілки */
-.slider-container:hover .slider-arrow {
-    opacity: 1;
-  }
-  
-  /* При наведенні курсору на стрілку вона підсвічується */
-  .slider-arrow:hover {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  
-
-/* Інформаційний блок */
-.info-block {
-    text-align: center;
-    padding: 20px;
-    background-color: #fff;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.justify-center {
+  justify-content: center;
 }
 
-.info-block h1 {
-    font-size: 28px;
-    margin-bottom: 15px;
+.align-center {
+  align-items: center;
 }
 
-.info-block p {
-    font-size: 18px;
-    color: #555;
+.flex-column {
+  flex-direction: column;
 }
 
-/* Футер */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+/* ---------------------------------------------
+   Додаткові глобальні класи за потребою
+   (наприклад, .shadow, .rounded, .clearfix тощо)
+   --------------------------------------------- */
+
+/* Простий clearfix, щоб очищати float-елементи */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-footer .footer-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+/* Тіньовий ефект для карток чи блоків */
+.shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-footer .university-info {
-    flex: 1;
-    margin-right: 20px;
+/* Закруглені кути */
+.rounded {
+  border-radius: 4px;
 }
-
-footer .university-info img {
-    height: 40px;
-    margin-bottom: 10px;
-}
-
-footer .social-icons {
-    display: flex;
-    align-items: center;
-}
-
-footer .social-icons a {
-    margin: 0 5px;
-}
-
-footer .social-icons img {
-    height: 30px;
-}
-
-
-
-  

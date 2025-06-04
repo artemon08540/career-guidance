@@ -1,6 +1,11 @@
+// src/components/LoginForm.tsx
 import React, { useState } from 'react';
 
-const LoginForm = () => {
+interface LoginFormProps {
+  onLogin?: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,12 +30,13 @@ const LoginForm = () => {
 
       if (response.ok) {
         localStorage.setItem('jwt', data.jwt);
-        localStorage.setItem('user', JSON.stringify(data.user)); // 🔥 Зберігаємо базову інформацію
+        localStorage.setItem('user', JSON.stringify(data.user));
         setSuccess(true);
+        if (onLogin) onLogin();
       } else {
         setError(data.error?.message || 'Login failed');
       }
-    } catch (err) {
+    } catch {
       setError('Login error');
     }
   };

@@ -1,0 +1,184 @@
+/* src/components/Main.css */
+
+/* ========================================
+   1. Кореневий контейнер main
+   ======================================== */
+.main-root {
+  padding-top: 16px;
+  padding-bottom: 32px;
+  background-color: transparent;
+}
+
+/* ========================================
+   2. Сітка (Grid) — адаптивне розташування
+   ======================================== */
+.main-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   3. Контейнери для слайдера та тексту
+   ======================================== */
+.main-slider-container {
+  position: relative; /* Для абсолютного позиціонування стрілок */
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-text-container {
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* На десктопі: слайдер 50%, текст 50% */
+@media (min-width: 960px) {
+  .main-slider-container {
+    width: 50%;
+  }
+  .main-text-container {
+    width: 50%;
+  }
+}
+
+/* ========================================
+   4. Слайдер та зображення
+   ======================================== */
+.main-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Кожен слайд займає всю область контейнера */
+.main-slide {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* 60% висоти viewport, можна змінити */
+}
+
+/* Зображення в слайді */
+.main-slide__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Обрізає зайве, зберігаючи пропорції */
+}
+
+/* ========================================
+   5. Кастомні стрілки Slider
+   ======================================== */
+.main-slider__arrow {
+  position: absolute;
+  top: 0;
+  width: 50px;              /* Ширина “панелі” кнопки */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  font-size: 2rem;          /* Розмір символу ‹ і › */
+  cursor: pointer;
+  opacity: 0;               /* Невидимі за замовчуванням */
+  transition: opacity 0.3s ease-in-out, background 0.3s ease-in-out;
+  z-index: 2;
+}
+
+/* Коли наведено курсор на контейнер слайдера — стрілки показуються */
+.main-slider-container:hover .main-slider__arrow {
+  opacity: 1;
+}
+
+/* Розташування стрілок “Перша” та “Друга” */
+.main-slider__arrow--prev {
+  left: 0;
+}
+
+.main-slider__arrow--next {
+  right: 0;
+}
+
+/* Зміна фону стрілки при наведенні */
+.main-slider__arrow:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Приховуємо дефолтні стрілки ‘react-slick’ */
+.slick-prev,
+.slick-next {
+  display: none !important;
+}
+
+/* ========================================
+   6. “Точки” (dots) під слайдером
+   ======================================== */
+.slick-dots {
+  bottom: 12px;
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.slick-dots li.slick-active button:before {
+  color: #ffffff;
+}
+
+/* ========================================
+   7. Заголовок і абзац у текстовому блоці
+   ======================================== */
+.main-text-container__title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 2rem; /* ~32px */
+  margin-bottom: 16px;
+}
+
+/* Основний текст */
+.main-text-container__body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;    /* ~16px */
+  line-height: 1.6;
+  margin-bottom: 16px;
+  color: #333333;
+}
+
+/* ========================================
+   8. Адаптивність для мобільних / планшетів
+   ======================================== */
+
+/* Планшети (600px–959px) */
+@media (min-width: 600px) and (max-width: 959px) {
+  .main-slide {
+    height: 40vh; /* трохи менша висота для планшетів */
+  }
+  .main-text-container {
+    padding: 16px;
+  }
+  .main-text-container__title {
+    font-size: 1.75rem; /* ~28px */
+  }
+  .main-text-container__body {
+    font-size: 0.95rem; /* ~15px */
+  }
+}
+
+/* Смартфони (≤599px) */
+@media (max-width: 599px) {
+  .main-slide {
+    height: 30vh; /* компактна висота для мобільних */
+  }
+  .main-text-container {
+    padding: 12px;
+  }
+  .main-text-container__title {
+    font-size: 1.5rem; /* ~24px */
+    margin-bottom: 12px;
+  }
+  .main-text-container__body {
+    font-size: 0.9rem; /* ~14px */
+    margin-bottom: 12px;
+  }
+}
