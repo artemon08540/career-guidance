@@ -1,0 +1,111 @@
+/* ========================================
+   Footer.css
+   ======================================== */
+
+/* 1. Основний контейнер підвалу */
+.footer-container {
+  background-color: #0D1B2A; /* темно-синій / майже чорний фон */
+  color: #FFFFFF;            /* білий текст */
+  padding: 40px 0;           /* зверху/знизу 40px, з боків 0 */
+  font-family: 'Inter', sans-serif;
+}
+
+/* 2. Внутрішній контейнер, щоб обмежити ширину */
+.footer-content {
+  max-width: 1200px;         /* максимальна ширина контенту */
+  margin: 0 auto;            /* центр по горизонталі */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* простір між колонками */
+  align-items: flex-start;
+  gap: 20px;                 /* відстань між колонками у рядку */
+}
+
+/* 3. Ліва частина – логотип */
+.footer-logo-container {
+  flex: 1 1 200px;           /* гнучкий розмір: мінімум 200px, росте за потреби */
+  display: flex;
+  justify-content: center;   /* по горизонталі по центру */
+  align-items: center;       /* по вертикалі по центру */
+  margin-bottom: 20px;       /* відступ знизу на випадок переносів */
+}
+
+.footer-logo {
+  max-width: 150px;          /* максимум 150px завширшки */
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 4. Центральна частина – інформація про університет */
+.footer-info-container {
+  flex: 2 1 400px;           /* трохи ширша колонка, мінімум 400px */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;                  /* відстань між рядками тексту */
+  margin-bottom: 20px;
+}
+
+.footer-university-name {
+  font-size: 1.2rem;         /* ~20px */
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.footer-info-text {
+  font-size: 0.95rem;        /* ~15px */
+  line-height: 1.5;
+  margin: 2px 0;
+}
+
+/* 5. Права частина – ікони соцмереж */
+.footer-social-container {
+  flex: 1 1 200px;           /* мінімум 200px, росте за потреби */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-social-links {
+  display: flex;
+  gap: 16px;                  /* відстань між іконками */
+}
+
+.footer-social-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.footer-social-icon img:hover {
+  opacity: 0.7;              /* легка прозорість при наведенні */
+}
+
+/* 6. Адаптивність – на широких і мобільних екранах */
+
+/* На екранах до 768px (планшети / мобільні) ламаємо у стовпчик */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-logo-container,
+  .footer-info-container,
+  .footer-social-container {
+    flex: none;
+    width: 100%;
+  }
+  .footer-logo-container {
+    margin-bottom: 16px;
+  }
+  .footer-info-container {
+    margin-bottom: 16px;
+  }
+  .footer-social-container {
+    margin-bottom: 16px;
+  }
+}

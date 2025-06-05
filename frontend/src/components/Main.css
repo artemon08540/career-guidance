@@ -1,6 +1,8 @@
 /* ========================================
-   1. Кореневий контейнер main — без відступів зверху/знизу
+   Main.css
    ======================================== */
+
+/* 1. Кореневий контейнер main — без відступів зверху/знизу */
 .main-root {
   padding: 0;
   margin: 0;
@@ -19,6 +21,7 @@
 /* ========================================
    3. Контейнери для слайдера та тексту
    ======================================== */
+/* Десктоп (≥960px): слайдер 50%, текст 50% */
 @media (min-width: 960px) {
   .main-slider-container {
     width: 50%;
@@ -27,25 +30,27 @@
   }
   .main-text-container {
     width: 50%;
-    padding: 24px;       /* базові падінги залишаються */
+    padding: 24px;
     box-sizing: border-box;
-    /* Жодного max-height чи overflow-y: auto — текст просто ростиме */
   }
 }
 
+/* Планшет/мобіль (<960px): обидва блоки по 100% */
 @media (max-width: 959px) {
   .main-slider-container {
     width: 100%;
   }
   .main-text-container {
     width: 100%;
-    padding: 16px;       /* трішки менші падінги для мобільних */
+    padding: 16px;
     box-sizing: border-box;
   }
 }
 
 /* ========================================
    4. Кастомні стрілки Slider
+       (тільки позиціонування і стилі стрелок,
+        без будь-яких правил висоти для слайду)
    ======================================== */
 .main-slider__arrow {
   position: absolute;
@@ -66,18 +71,24 @@
   transition: opacity 0.2s ease-in-out, background 0.2s ease-in-out;
   z-index: 2;
 }
+
 .main-slider-container:hover .main-slider__arrow {
   opacity: 1;
 }
+
 .main-slider__arrow--prev {
   left: 16px;
 }
+
 .main-slider__arrow--next {
   right: 16px;
 }
+
 .main-slider__arrow:hover {
   background: rgba(0, 0, 0, 0.5);
 }
+
+/* Сховати дефолтні стрілки react-slick */
 .slick-prev,
 .slick-next {
   display: none !important;
@@ -100,30 +111,126 @@
 /* ========================================
    6. Базове форматування тексту
    ======================================== */
+/* Заголовок */
 .main-text-container__title {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 2rem;
   margin-bottom: 16px;
+  color: #0D1B2A;
 }
-.main-text-container__body {
+
+/* Підзаголовок */
+.main-text-container__subtitle {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  font-weight: 500;
   margin-bottom: 16px;
   color: #333333;
 }
 
+/* Окремий абзац (буліт/цей-тої типу) */
+.main-text-container__body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px; /* базове значення, якщо пункт поза списком */
+  color: #0D1B2A;
+  display: flex;
+  align-items: flex-start;
+}
+
 /* ========================================
-   7. Адаптивність для планшетів / смартфонів
+   Відступи між пунктами у списку булітів:
+   збільшуємо margin-bottom до 20px
+   ======================================== */
+.main-bullet-list .main-text-container__body {
+  margin-bottom: 20px; /* збільшено для явного простору */
+}
+
+/* Стиль для маркера біля кожного пункту */
+.main-bullet-marker {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #0D1B2A;
+  border-radius: 50%;
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+/* Текст після маркера */
+.main-bullet-text {
+  display: inline-block;
+}
+
+/* ========================================
+   7. Цитата
+   ======================================== */
+.main-text-container__quote {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: #555555;
+  margin-bottom: 16px;
+}
+
+/* ========================================
+   8. Заклик до дії (CTA)
+   ======================================== */
+/* Контейнер для кнопки */
+.main-cta-container {
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* Кнопка-заклик */
+.main-cta-link {
+  display: inline-block;
+  background-color: #0D1B2A;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.main-cta-link:hover {
+  background-color: #081221;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   9. Адаптивність для планшетів / смартфонів
    ======================================== */
 @media (max-width: 599px) {
   .main-text-container__title {
     font-size: 1.5rem;
     margin-bottom: 12px;
   }
+  .main-text-container__subtitle {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
   .main-text-container__body {
     font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  /* Якщо в мобільній версії потрібно близько того ж інтервалу між булітами: */
+  .main-bullet-list .main-text-container__body {
+    margin-bottom: 16px;
+  }
+  .main-text-container__quote {
+    font-size: 0.9rem;
     margin-bottom: 12px;
+  }
+  .main-cta-link {
+    font-size: 0.95rem;
+    padding: 10px 24px;
   }
 }

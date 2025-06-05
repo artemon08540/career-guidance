@@ -78,47 +78,110 @@ export default function Main() {
         </Grid>
 
         {/* ============================
-            Текстовий блок (права частина на десктопі, під слайдером на мобіль/планшет)
+            Оновлений текстовий блок:
+            більше інформативного контенту 
+            та кнопка до Приймальної комісії
             ============================ */}
         <Grid item xs={12} md={6} className="main-text-container">
-          <Typography variant="h4" className="main-text-container__title" gutterBottom>
-            Український державний університет науки і технологій (УДУНТ)
+          {/* Заголовок */}
+          <Typography
+            variant="h4"
+            className="main-text-container__title"
+            gutterBottom
+          >
+            Твоя кар'єра починається прямо зараз!
           </Typography>
 
-          <Typography className="main-text-container__body" paragraph>
-            УДУНТ — провідний багатогалузевий ЗВО у Дніпрі, де навчається понад 15 тис. студентів.
-            Працює 950 викладачів (139 професорів, 523 доценти). До складу входить 6 інститутів,
-            24 факультети, 121 кафедра та 21 навчальний корпус.
+          {/* Короткий вступний текст */}
+          <Typography
+            className="main-text-container__subtitle"
+            paragraph
+          >
+            Український державний університет науки і технологій (УДУНТ) — це не просто
+            місце для навчання. Тут формується майбутнє кожного студента, відкриваються
+            можливості для успішної кар’єри, наукових досліджень та міжнародних обмінів.
           </Typography>
 
-          <Typography className="main-text-container__body" paragraph>
-            <strong>Рейтинги:</strong> 5 місце в Scopus (Дніпро, 2023), 15 місце серед ЗВО України
-            за наукову ефективність.
+          {/* Розширений перелік переваг */}
+          <Box className="main-bullet-list">
+            {/* Перший пункт */}
+            <Typography
+              component="div"
+              className="main-text-container__body"
+            >
+              <Box component="span" className="main-bullet-marker" />
+              <Box component="span" className="main-bullet-text">
+                <strong>Понад 15 000 студентів</strong> у 6 інститутах та 24 факультетах,
+                що гарантує мультидисциплінарне середовище та активний студентський рух.
+              </Box>
+            </Typography>
+
+            {/* Другий пункт */}
+            <Typography
+              component="div"
+              className="main-text-container__body"
+            >
+              <Box component="span" className="main-bullet-marker" />
+              <Box component="span" className="main-bullet-text">
+                <strong>950 викладачів</strong> (139 професорів, понад 500 доцентів) — 
+                провідні експерти у своїх галузях, які поєднують наукові дослідження та практику.
+              </Box>
+            </Typography>
+
+            {/* Третій пункт */}
+            <Typography
+              component="div"
+              className="main-text-container__body"
+            >
+              <Box component="span" className="main-bullet-marker" />
+              <Box component="span" className="main-bullet-text">
+                <strong>Сучасна інфраструктура:</strong> 21 гуртожиток із 100 % 
+                забезпеченням, 2 спорткомплекси (4 зали), 3 басейни, Wi-Fi на всій території, 
+                ботані́чний сад та геологічний полігон.
+              </Box>
+            </Typography>
+
+            {/* Четвертий пункт */}
+            <Typography
+              component="div"
+              className="main-text-container__body"
+            >
+              <Box component="span" className="main-bullet-marker" />
+              <Box component="span" className="main-bullet-text">
+                <strong>Міжнародні програми:</strong> можливість отримати 
+                <strong>подвійний диплом</strong> у партнерських університетах Франції, Норвегії, Польщі.
+              </Box>
+            </Typography>
+
+            {/* П’ятий пункт */}
+            <Typography
+              component="div"
+              className="main-text-container__body"
+            >
+              <Box component="span" className="main-bullet-marker" />
+              <Box component="span" className="main-bullet-text">
+                <strong>Працевлаштування та стажування:</strong> 
+                стабільний попит на наших випускників, партнерські компанії, 
+                внутрішні стажування та гранти.
+              </Box>
+            </Typography>
+          </Box>
+
+          {/* Додаткова секція з короткою інформацією */}
+          <Typography
+            className="main-text-container__quote"
+            paragraph
+          >
+            “УДУНТ — це не просто освіта. Це успішний старт твоєї майбутньої кар’єри, 
+            дружня команда однодумців і справжньо європейські можливості.”
           </Typography>
 
-          <Typography className="main-text-container__body" paragraph>
-            <strong>Переваги:</strong> військова підготовка (6 спеціальностей), одна з найбільших
-            бібліотек серед ЗВО, понад 2000 онлайн-курсів у Moodle, 21 гуртожиток із 100% забезпеченням.
-          </Typography>
-
-          <Typography className="main-text-container__body" paragraph>
-            <strong>Інфраструктура:</strong> 2 спорткомплекси, 17 залів, стадіон, басейни, водні бази,
-            безкоштовний Wi-Fi, геополігон, оздоровчі табори.
-          </Typography>
-
-          <Typography className="main-text-container__body" paragraph>
-            <strong>Міжнародка:</strong> подвійні дипломи (Франція, Норвегія, Польща).{' '}
-            <strong>Кар’єра:</strong> попит на випускників, підтримка роботодавців.
-          </Typography>
-
-          <Typography className="main-text-container__body" paragraph>
-            <strong>Студентське життя:</strong> гуртки, палац культури, активний комітет.
-            Навчання ведеться українською та англійською.
-          </Typography>
-
-          <Typography className="main-text-container__body">
-            УДУНТ — це освіта, наука, спорт, комфортна інфраструктура та міжнародні можливості.
-          </Typography>
+          {/* Заклик до дії: перехід на сторінку Приймальної комісії */}
+          <Box className="main-cta-container">
+            <a href="/admission" className="main-cta-link">
+              Перейти до Приймальної комісії
+            </a>
+          </Box>
         </Grid>
       </Grid>
     </Box>
