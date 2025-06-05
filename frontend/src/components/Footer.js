@@ -1,40 +1,57 @@
 import React from 'react';
-import { Box, Container, Grid, Typography, Link } from '@mui/material';
-import footerStyles from '../assets/styles/FooterStyles';
+import './Footer.css';
 
 const Footer = () => {
   return (
-    <Box sx={footerStyles.container}>
-      <Container>
-        <Grid container spacing={2} justifyContent="space-between" alignItems="center">
-          {/* Ліва частина - Логотип */}
-          <Grid item xs={12} md={2} sx={footerStyles.logoContainer}>
-            <img src="/images/logo2.png" alt="University Logo" style={footerStyles.logo} />
-          </Grid>
+    <footer className="footer-container">
+      <div className="footer-content">
+        {/* Ліва частина – Логотип */}
+        <div className="footer-logo-container">
+          <img
+            src="/images/logo2.png"
+            alt="University Logo"
+            className="footer-logo"
+          />
+        </div>
 
-          {/* Центральна частина - Інформація про університет */}
-          <Grid item xs={12} md={6} sx={footerStyles.infoContainer}>
-            <Typography sx={footerStyles.universityName}>
-              Український державний університет науки і технологій
-            </Typography>
-            <Typography sx={footerStyles.infoText}>49010, Україна, м. Дніпро, вул. Лазаряна, 2</Typography>
-            <Typography sx={footerStyles.infoText}>Email: office@ust.edu.ua</Typography>
-            <Typography sx={footerStyles.infoText}>Приймальня ректора: +38 (056) 793-19-00</Typography>
-            <Typography sx={footerStyles.infoText}>Загальний відділ: +38 (056) 373-15-05</Typography>
-          </Grid>
+        {/* Центральна частина – Інформація про університет */}
+        <div className="footer-info-container">
+          <div className="footer-university-name">
+            Український державний університет науки і технологій
+          </div>
+          <div className="footer-info-text">
+            49010, Україна, м. Дніпро, вул. Лазаряна, 2
+          </div>
+          <div className="footer-info-text">
+            Email: office@ust.edu.ua
+          </div>
+          <div className="footer-info-text">
+            Приймальня ректора: +38 (056) 793-19-00
+          </div>
+          <div className="footer-info-text">
+            Загальний відділ: +38 (056) 373-15-05
+          </div>
+        </div>
 
-          {/* Права частина - Соцмережі */}
-          <Grid item xs={12} md={4} sx={footerStyles.socialContainer}>
-            <Box sx={footerStyles.socialLinks}>
-              <Link href="#" sx={footerStyles.socialIcon}><img src="/images/facebook-icon.png" alt="Facebook" /></Link>
-              <Link href="#" sx={footerStyles.socialIcon}><img src="/images/telegram-icon.png" alt="Telegram" /></Link>
-              <Link href="#" sx={footerStyles.socialIcon}><img src="/images/youtube-icon.png" alt="YouTube" /></Link>
-              <Link href="#" sx={footerStyles.socialIcon}><img src="/images/instagram-icon.png" alt="Instagram" /></Link>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        {/* Права частина – Соцмережі */}
+        <div className="footer-social-container">
+          <div className="footer-social-links">
+            <a href="#" className="footer-social-icon">
+              <img src="/images/facebook-icon.png" alt="Facebook" />
+            </a>
+            <a href="#" className="footer-social-icon">
+              <img src="/images/telegram-icon.png" alt="Telegram" />
+            </a>
+            <a href="#" className="footer-social-icon">
+              <img src="/images/youtube-icon.png" alt="YouTube" />
+            </a>
+            <a href="#" className="footer-social-icon">
+              <img src="/images/instagram-icon.png" alt="Instagram" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 

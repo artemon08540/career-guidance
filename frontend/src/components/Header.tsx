@@ -1,18 +1,17 @@
 // src/components/Header.tsx
-
 import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
-  Menu,
-  MenuItem,
   IconButton,
   Box,
   useMediaQuery,
   useTheme,
   Dialog,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import '../components/Header.css';
@@ -22,126 +21,38 @@ import TestPage from './TestPage.tsx';
 
 export default function Header() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Стан для “Спеціальностей”
-  const [specialitiesAnchor, setSpecialitiesAnchor] = useState<null | HTMLElement>(null);
-  const [subMenuAnchor, setSubMenuAnchor] = useState<null | HTMLElement>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  // Стан для діалогів
+  // Стан для діалогів “Увійти” та “Тест”
   const [loginOpen, setLoginOpen] = useState(false);
   const [testOpen, setTestOpen] = useState(false);
 
-  // Дані меню “Спеціальності” (приклад)
-  const specialities = [
-    {
-      category: 'Освіта, гуманітарні науки та мистецтво',
-      items: [
-        '014 Середня освіта',
-        '015.12 Професійна освіта (металургія)',
-        '017 Фізична культура і спорт',
-        '022 Дизайн',
-        '023 Образотворче мистецтво, декоративне мистецтво, реставрація',
-        '029 Інформаційна, бібліотечна та архівна справа',
-        '032 Історія та археологія',
-        '035 Філологія',
-      ],
-    },
-    {
-      category: 'Соціальні науки, управління та право',
-      items: [
-        '051 Економіка',
-        '053 Психологія',
-        '071 Облік і оподаткування',
-        '072 Фінанси, банківська справа та страхування',
-        '072 Фінанси, банківська справа, страхування та фондовий ринок',
-        '073 Менеджмент',
-        '075 Маркетинг',
-        '076 Підприємництво, торгівля та біржова діяльність',
-        '076 Підприємництво та торгівля',
-        '281 Публічне управління та адміністрування',
-        '292 Міжнародні економічні відносини',
-        '232 Соціальне забезпечення',
-      ],
-    },
-    {
-      category: 'Природничі науки',
-      items: ['101 Екологія', '102 Хімія'],
-    },
-    {
-      category: 'Інформаційні технології та комп’ютерні науки',
-      items: [
-        '121 Інженерія програмного забезпечення',
-        '122 Комп’ютерні науки',
-        '123 Комп’ютерна інженерія',
-        '125 Кібербезпека та захист інформації',
-        '126 Інформаційні системи та технології',
-      ],
-    },
-    {
-      category: 'Інженерія, техніка та виробництво',
-      items: [
-        '131 Прикладна механіка',
-        '132 Матеріалознавство',
-        '133 Галузеве машинобудування',
-        '136 Металургія',
-        '141 Електроенергетика, електротехніка та електромеханіка',
-        '142 Енергетичне машинобудування',
-        '144 Теплоенергетика',
-        '151 Автоматизація та комп’ютерно-інтегровані технології',
-        '152 Метрологія та інформаційно-вимірювальна техніка',
-        '161 Хімічні технології та інженерія',
-        '163 Біомедична інженерія',
-        "174 Автоматизація, комп'ютерно-інтегровані технології та робототехніка",
-        '175 Інформаційно-вимірювальні технології',
-        '186 Видавництво та поліграфія',
-      ],
-    },
-    {
-      category: 'Архітектура, будівництво та геодезія',
-      items: ['192 Будівництво та цивільна інженерія', '193 Геодезія та землеустрій'],
-    },
-    {
-      category: 'Транспорт, безпека та навколишнє середовище',
-      items: [
-        '183 Технології захисту навколишнього середовища',
-        '263 Цивільна безпека',
-        '273 Залізничний транспорт',
-        '274 Автомобільний транспорт',
-        '275 Транспортні технології (за видами)',
-      ],
-    },
-  ];
+  // Стан для мобільного меню
+  const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
 
-  // Обробники меню “Спеціальності”
-  const openSpecialitiesMenu = (e: React.MouseEvent<HTMLElement>) =>
-    setSpecialitiesAnchor(e.currentTarget);
-  const closeSpecialitiesMenu = () => {
-    setSpecialitiesAnchor(null);
-    setSubMenuAnchor(null);
-    setSelectedCategory(null);
-  };
-  const openSubMenu = (e: React.MouseEvent<HTMLElement>, category: string) => {
-    setSelectedCategory(category);
-    setSubMenuAnchor(e.currentTarget);
-  };
-  const closeSubMenu = () => {
-    setSubMenuAnchor(null);
-    setSelectedCategory(null);
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMenuAnchorEl(event.currentTarget);
   };
 
-  // Обробники діалогів
+  const handleMobileMenuClose = () => {
+    setMobileMenuAnchorEl(null);
+  };
+
+  // Функції для відкриття/закриття діалогів
   const openLoginDialog = () => setLoginOpen(true);
   const closeLoginDialog = () => setLoginOpen(false);
   const openTestDialog = () => setTestOpen(true);
   const closeTestDialog = () => setTestOpen(false);
 
-  // Пункти основного навігаційного меню
+  // Пункти основного меню навігації (за потреби + “Спеціальності”)
   const navItems = [
     { label: 'Головна', href: '/' },
     { label: 'Університет', href: '/university' },
     { label: 'Тест', action: openTestDialog },
+    // Якщо хочете, щоб “Спеціальності” просто було посиланням, можна вказати href:
+    // { label: 'Спеціальності', href: '/specialities' },
+    // або, як у цьому прикладі, просто вивести кнопку без дії.
   ];
 
   return (
@@ -155,78 +66,68 @@ export default function Header() {
               2) Логотип + Назва
               ============================ */}
           <Box className="header-logo">
-            <img src="/images/logo.png" alt="University Logo" className="header-logo__img" />
+            <img
+              src="/images/logo.png"
+              alt="University Logo"
+              className="header-logo__img"
+            />
             <Typography variant="h6" className="header-logo__text">
               Профорієнтація абітурієнтів
             </Typography>
           </Box>
 
           {/* ============================
-              3) Якщо мобільний — іконка-меню,
+              3) Якщо мобільний/планшет — іконка-меню,
                  інакше — горизонтальні кнопки
               ============================ */}
-          {isMobile ? (
+          {isMobileOrTablet ? (
             <>
+              {/* Іконка гамбургера */}
               <IconButton
                 edge="end"
-                color="inherit"               /* Наслідує білий колір text із primary.contrastText */
+                color="inherit"
                 aria-label="menu"
-                onClick={openSpecialitiesMenu}
                 size="large"
                 className="header-menu-icon"
+                onClick={handleMobileMenuOpen}
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                anchorEl={specialitiesAnchor}
-                open={Boolean(specialitiesAnchor)}
-                onClose={closeSpecialitiesMenu}
-                className="header-dropdown-menu"
-              >
-                {/* У мобільному режимі показуємо спочатку всі “Спеціальності” */}
-                {specialities.map((group) => (
-                  <React.Fragment key={group.category}>
-                    <MenuItem
-                      onClick={(e) => openSubMenu(e, group.category)}
-                      className="header-dropdown-menu__item-group"
-                    >
-                      {group.category}
-                    </MenuItem>
-                    {selectedCategory === group.category && (
-                      <Menu
-                        anchorEl={subMenuAnchor}
-                        open={Boolean(subMenuAnchor)}
-                        onClose={closeSubMenu}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                        className="header-dropdown-submenu"
-                      >
-                        {group.items.map((item) => (
-                          <MenuItem key={item} onClick={closeSpecialitiesMenu}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    )}
-                  </React.Fragment>
-                ))}
 
-                {/* Додаємо інші navItems у тому ж меню */}
-                <MenuItem onClick={() => window.location.replace('/')}>Головна</MenuItem>
-                <MenuItem onClick={() => window.location.replace('/university')}>
-                  Університет
-                </MenuItem>
+              {/* Мобільне меню (випадаючий список) */}
+              <Menu
+                anchorEl={mobileMenuAnchorEl}
+                open={isMobileMenuOpen}
+                onClose={handleMobileMenuClose}
+              >
+                {navItems.map((item) => (
+                  <MenuItem
+                    key={item.label}
+                    onClick={() => {
+                      handleMobileMenuClose(); // Закриваємо меню при кліку
+                      if (item.href) {
+                        window.location.replace(item.href);
+                      } else if (item.action) {
+                        item.action();
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
+                {/* “Спеціальності” — окремий пункт у мобільному меню */}
                 <MenuItem
                   onClick={() => {
-                    closeSpecialitiesMenu();
-                    openTestDialog();
+                    handleMobileMenuClose();
+                    /* Можна додати тут логіку переходу або дії для “Спеціальності” */
                   }}
                 >
-                  Тест
+                  Спеціальності
                 </MenuItem>
+                 {/* “Увійти” — окремий пункт у мобільному меню */}
                 <MenuItem
                   onClick={() => {
-                    closeSpecialitiesMenu();
+                    handleMobileMenuClose();
                     openLoginDialog();
                   }}
                 >
@@ -246,7 +147,7 @@ export default function Header() {
                     className="header-nav__button"
                     component="a"
                     href={item.href}
-                    color="inherit"      /* Білий текст */
+                    color="inherit"
                     disableRipple
                   >
                     {item.label}
@@ -258,7 +159,7 @@ export default function Header() {
                     onClick={() => {
                       if (item.action) item.action();
                     }}
-                    color="inherit"      /* Білий текст */
+                    color="inherit"
                     disableRipple
                   >
                     {item.label}
@@ -266,49 +167,17 @@ export default function Header() {
                 )
               )}
 
-              {/* Кнопка “Спеціальності” */}
+              {/* “Спеціальності” — звичайна кнопка без меню */}
               <Button
                 className="header-nav__button"
-                onClick={openSpecialitiesMenu}
+                onClick={() => {
+                  /* За бажанням — тут можна робити редірект або залишити пустим */
+                }}
                 color="inherit"
                 disableRipple
               >
                 Спеціальності
               </Button>
-              <Menu
-                anchorEl={specialitiesAnchor}
-                open={Boolean(specialitiesAnchor)}
-                onClose={closeSpecialitiesMenu}
-                className="header-dropdown-menu"
-              >
-                {specialities.map((group) => (
-                  <React.Fragment key={group.category}>
-                    <MenuItem
-                      onMouseEnter={(e) => openSubMenu(e, group.category)}
-                      onClick={(e) => openSubMenu(e, group.category)}
-                      className="header-dropdown-menu__item-group"
-                    >
-                      {group.category}
-                    </MenuItem>
-                    {selectedCategory === group.category && (
-                      <Menu
-                        anchorEl={subMenuAnchor}
-                        open={Boolean(subMenuAnchor)}
-                        onClose={closeSubMenu}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                        className="header-dropdown-submenu"
-                      >
-                        {group.items.map((item) => (
-                          <MenuItem key={item} onClick={closeSpecialitiesMenu}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    )}
-                  </React.Fragment>
-                ))}
-              </Menu>
 
               {/* Кнопка “Увійти” */}
               <Button
