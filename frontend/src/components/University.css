@@ -1,0 +1,124 @@
+/* ========================================
+   University.css
+   ======================================== */
+
+/* 1. Кореневий контейнер сторінки «Університет» */
+.university-root {
+  background-color: #ffffff;
+  color: #0D1B2A;
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+/* 2. Внутрішній контейнер із обмеженням ширини */
+.university-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* 3. Заголовок «Про університет» */
+.university-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;    /* ~40px */
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #0D1B2A;
+}
+
+/* 4. Короткий вступ */
+.MuiTypography-root.university-intro {
+  /* специфічніший селектор, щоб перебити MUI-стиль */
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 40px; /* достатній відступ */
+  text-align: center;
+  color: #333333;
+}
+
+/* 5. Контейнер для секцій 
+   ТЗ: прибираємо власні display/flex/gap, залишаємо тільки відступ знизу */
+.university-sections {
+  margin-bottom: 32px;
+}
+
+/* 6. Одна секція-картка */
+.university-section {
+  padding: 16px;
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  box-sizing: border-box;
+  /* Ніяких width або flex-настроек тут:
+     xs={12} sm={6} у Grid item вже дають 100%/50% */
+}
+
+/* 7. Назва секції */
+.university-section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem; /* ~24px */
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #0D1B2A;
+}
+
+/* 8. Текст усередині секції */
+.university-section-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem; /* ~16px */
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: #333333;
+}
+
+/* 9. Списки факультетів та гуртожитків */
+.university-faculty-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  color: #0D1B2A;
+}
+.university-faculty-list li {
+  margin-bottom: 8px;
+}
+
+/* 10. Список у блоці «Наукові досягнення» */
+.university-bullet-list {
+  list-style-type: circle;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  color: #0D1B2A;
+}
+.university-bullet-list li {
+  margin-bottom: 8px;
+}
+
+/* 11. Адаптивність: для мобільних (<600px) */
+@media (max-width: 599px) {
+  .university-section {
+    width: 100%;           /* xs={12} вже ок, але можна додати вручну */
+    margin-bottom: 24px;   /* відступ між блоками у стовпчик */
+  }
+  .university-title {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  .university-intro {
+    margin-bottom: 32px;
+    font-size: 1rem;
+  }
+  .university-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  .university-section-text {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  .university-faculty-list li,
+  .university-bullet-list li {
+    margin-bottom: 6px;
+  }
+}

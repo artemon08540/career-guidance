@@ -149,7 +149,7 @@ export default function Main() {
               <Box component="span" className="main-bullet-marker" />
               <Box component="span" className="main-bullet-text">
                 <strong>Міжнародні програми:</strong> можливість отримати 
-                <strong>подвійний диплом</strong> у партнерських університетах Франції, Норвегії, Польщі.
+                <strong> подвійний диплом</strong> у партнерських університетах Франції, Норвегії, Польщі.
               </Box>
             </Typography>
 
