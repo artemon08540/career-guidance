@@ -1,0 +1,105 @@
+/* src/components/Specialties.css */
+
+/* ========================================
+   1. Кореневий контейнер (відступи зверху/знизу та з боків)
+   ======================================== */
+.specialties-root {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ========================================
+   2. Заголовок і вступний текст
+   ======================================== */
+.specialties-title {
+  margin-bottom: 16px;
+}
+
+.specialties-intro {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 40px; /* достатній відступ */
+  text-align: center ;
+  color: #333333;
+}
+
+/* ========================================
+   3. Стан для лоудера
+   ======================================== */
+.specialties-loader-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* ========================================
+   4. Помилка завантаження
+   ======================================== */
+.specialties-error {
+  margin-top: 32px;
+}
+
+/* ========================================
+   5. Немає даних
+   ======================================== */
+.specialties-no-data {
+  margin-top: 32px;
+}
+
+/* ========================================
+   6. Акордеон (відступ між елементами)
+   ======================================== */
+.specialties-accordion {
+  margin-bottom: 16px;
+}
+
+/* ========================================
+   7. Заголовок у кожному аккордеоні
+   ======================================== */
+.specialties-accordion-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.specialties-accordion-title {
+  /* Стиль заголовка спеціальності */
+  font-weight: 500;
+}
+
+/* ========================================
+   8. Короткий опис під заголовком
+   ======================================== */
+.specialties-short {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   9. Повний опис у розгорнутому блоці
+   ======================================== */
+.specialties-full {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+}
+
+/* ===== Додаткові адаптивні корекції ===== */
+@media (max-width: 599px) {
+  .specialties-root {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .specialties-intro {
+    margin-bottom: 24px;
+  }
+  .specialties-accordion {
+    margin-bottom: 12px;
+  }
+  .specialties-full {
+    font-size: 0.95rem;
+  }
+}

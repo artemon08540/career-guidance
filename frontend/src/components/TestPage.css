@@ -1,0 +1,118 @@
+/* src/components/TestPage.css */
+
+/* Загальні відступи та контейнер */
+.testpage-container {
+  padding: 24px;
+}
+
+/* Заголовок сторінки */
+.testpage-title {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* Секція із питаннями */
+.testpage-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.testpage-question-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Текст питання */
+.testpage-question-text {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* Кнопка «Завершити тест» */
+.testpage-submit-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.testpage-submit-button {
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+/* Якщо модуль ще завантажується або питань немає */
+.testpage-loading,
+.testpage-no-questions {
+  padding: 24px;
+  text-align: center;
+}
+
+/* Секція із результатами */
+.testpage-results-wrapper {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.testpage-results-paper {
+  width: 100%;
+  max-width: 800px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Заголовок «Топ-3 рекомендовані спеціальності» */
+.testpage-results-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Окремий Accordion (ступінь відступу між ними) */
+.testpage-accordion {
+  margin-bottom: 16px;
+}
+
+/* Заголовок Accordion: назва + відсоток */
+.testpage-accordion-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.testpage-accordion-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Короткий опис під назвою */
+.testpage-accordion-short {
+  margin-top: 4px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Деталі Accordion: увесь текст із Markdown */
+.testpage-full-text {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.testpage-full-list-item {
+  margin-left: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Заголовки у fullDescription (h2 у Markdown) */
+.testpage-full-heading {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0d1b2a;
+}

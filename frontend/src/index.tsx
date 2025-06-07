@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import theme from './theme';
 import App from './App.tsx';                    // ваша головна сторінка (Main → App)
 import UniversityPage from './pages/UniversityPage'; 
+import SpecialtiesPage from './pages/SpecialtiesPage';  
 import './index.css';
 
 const container = document.getElementById('root');
@@ -22,11 +23,20 @@ root.render(
     <CssBaseline />
     <BrowserRouter>
       <Routes>
-        {/* маршрут "/" рендерить ваш App (де Header, Main, Footer) */}
+        {/* головна сторінка: Header, Main, Footer */}
         <Route path="/" element={<App />} />
-        {/* маршрут "/university" рендерить сторінку з Header, University і Footer */}
+
+        {/* університетська сторінка: Header, University, Footer */}
         <Route path="/university" element={<UniversityPage />} />
-        {/* Тут можна додати інші маршрути за потреби */}
+
+        {/* сторінка «Спеціальності»: Header, Specialties, Footer */}
+        <Route path="/specialties" element={<SpecialtiesPage />} />
+
+        {/* за потреби можна додати ще маршрути, напр. для тестування */}
+        {/* <Route path="/test" element={<TestPage />} /> */}
+
+        {/* необов’язково: перенаправити всі інші невідомі шляхи на головну */}
+        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     </BrowserRouter>
   </ThemeProvider>

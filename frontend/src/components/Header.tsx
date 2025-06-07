@@ -1,5 +1,5 @@
 // src/components/Header.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -14,139 +14,102 @@ import {
   MenuItem,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import '../components/Header.css';
+import { Link as RouterLink } from 'react-router-dom';
+import './Header.css';
 
 import LoginForm from './LoginForm.tsx';
 import TestPage from './TestPage.tsx';
 
+type NavItem =
+  | { label: string; href: string }
+  | { label: string; action: () => void };
+
 export default function Header() {
   const theme = useTheme();
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Стан для діалогів “Увійти” та “Тест”
+  const [user, setUser] = useState<{ username: string } | null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
   const [testOpen, setTestOpen] = useState(false);
+  const [mobileAnchor, setMobileAnchor] = useState<null | HTMLElement>(null);
 
-  // Стан для мобільного меню
-  const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        const u = JSON.parse(stored);
+        setUser({ username: u.username || u.email || 'Експерт' });
+      } catch {}
+    }
+  }, []);
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMenuAnchorEl(null);
-  };
-
-  // Функції для відкриття/закриття діалогів
-  const openLoginDialog = () => setLoginOpen(true);
-  const closeLoginDialog = () => setLoginOpen(false);
-  const openTestDialog = () => setTestOpen(true);
-  const closeTestDialog = () => setTestOpen(false);
-
-  // Пункти основного меню навігації (за потреби + “Спеціальності”)
-  const navItems = [
+  const baseNav: NavItem[] = [
     { label: 'Головна', href: '/' },
     { label: 'Університет', href: '/university' },
-    { label: 'Тест', action: openTestDialog },
-    // Якщо хочете, щоб “Спеціальності” просто було посиланням, можна вказати href:
-    // { label: 'Спеціальності', href: '/specialities' },
-    // або, як у цьому прикладі, просто вивести кнопку без дії.
+    { label: 'Тест', action: () => setTestOpen(true) },
+    { label: 'Спеціальності', href: '/specialties' },
   ];
+
+  if (user) {
+    baseNav.push(
+      { label: `Привіт, ${user.username}`, action: () => {} },
+      {
+        label: 'Вийти',
+        action: () => {
+          localStorage.removeItem('jwt');
+          localStorage.removeItem('user');
+          setUser(null);
+        },
+      }
+    );
+  } else {
+    baseNav.push({ label: 'Увійти', action: () => setLoginOpen(true) });
+  }
+
+  const openMenu = (e: React.MouseEvent<HTMLElement>) => setMobileAnchor(e.currentTarget);
+  const closeMenu = () => setMobileAnchor(null);
 
   return (
     <>
-      {/* ============================
-          1) AppBar із color="primary"
-          ============================ */}
       <AppBar position="static" color="primary" elevation={0}>
         <Toolbar className="header-toolbar">
-          {/* ============================
-              2) Логотип + Назва
-              ============================ */}
-          <Box className="header-logo">
-            <img
-              src="/images/logo.png"
-              alt="University Logo"
-              className="header-logo__img"
-            />
+          {/* ЛОГО+ТЕКСТ — з посиланням на "/" */}
+          <RouterLink to="/" className="header-brand">
+            <img src="/images/logo.png" alt="Logo" className="header-logo__img" />
             <Typography variant="h6" className="header-logo__text">
               Профорієнтація абітурієнтів
             </Typography>
-          </Box>
+          </RouterLink>
 
-          {/* ============================
-              3) Якщо мобільний/планшет — іконка-меню,
-                 інакше — горизонтальні кнопки
-              ============================ */}
-          {isMobileOrTablet ? (
+          {isMobile ? (
             <>
-              {/* Іконка гамбургера */}
-              <IconButton
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                size="large"
-                className="header-menu-icon"
-                onClick={handleMobileMenuOpen}
-              >
+              <IconButton edge="end" color="inherit" onClick={openMenu}>
                 <MenuIcon />
               </IconButton>
-
-              {/* Мобільне меню (випадаючий список) */}
-              <Menu
-                anchorEl={mobileMenuAnchorEl}
-                open={isMobileMenuOpen}
-                onClose={handleMobileMenuClose}
-              >
-                {navItems.map((item) => (
+              <Menu anchorEl={mobileAnchor} open={!!mobileAnchor} onClose={closeMenu}>
+                {baseNav.map((item) => (
                   <MenuItem
                     key={item.label}
                     onClick={() => {
-                      handleMobileMenuClose(); // Закриваємо меню при кліку
-                      if (item.href) {
-                        window.location.replace(item.href);
-                      } else if (item.action) {
-                        item.action();
-                      }
+                      closeMenu();
+                      if ('href' in item) window.location.href = item.href;
+                      else item.action();
                     }}
                   >
                     {item.label}
                   </MenuItem>
                 ))}
-                {/* “Спеціальності” — окремий пункт у мобільному меню */}
-                <MenuItem
-                  onClick={() => {
-                    handleMobileMenuClose();
-                    /* Можна додати тут логіку переходу або дії для “Спеціальності” */
-                  }}
-                >
-                  Спеціальності
-                </MenuItem>
-                 {/* “Увійти” — окремий пункт у мобільному меню */}
-                <MenuItem
-                  onClick={() => {
-                    handleMobileMenuClose();
-                    openLoginDialog();
-                  }}
-                >
-                  Увійти
-                </MenuItem>
               </Menu>
             </>
           ) : (
             <Box className="header-nav">
-              {/* ============================
-                  4) Горизонтальні кнопки (десктоп)
-                  ============================ */}
-              {navItems.map((item) =>
-                item.href ? (
+              {baseNav.map((item) =>
+                'href' in item ? (
                   <Button
                     key={item.label}
                     className="header-nav__button"
-                    component="a"
-                    href={item.href}
+                    component={RouterLink}
+                    to={item.href}
                     color="inherit"
                     disableRipple
                   >
@@ -156,9 +119,7 @@ export default function Header() {
                   <Button
                     key={item.label}
                     className="header-nav__button"
-                    onClick={() => {
-                      if (item.action) item.action();
-                    }}
+                    onClick={item.action}
                     color="inherit"
                     disableRipple
                   >
@@ -166,40 +127,20 @@ export default function Header() {
                   </Button>
                 )
               )}
-
-              {/* “Спеціальності” — звичайна кнопка без меню */}
-              <Button
-                className="header-nav__button"
-                onClick={() => {
-                  /* За бажанням — тут можна робити редірект або залишити пустим */
-                }}
-                color="inherit"
-                disableRipple
-              >
-                Спеціальності
-              </Button>
-
-              {/* Кнопка “Увійти” */}
-              <Button
-                className="header-nav__button header-nav__button--login"
-                onClick={openLoginDialog}
-                color="inherit"
-                disableRipple
-              >
-                Увійти
-              </Button>
             </Box>
           )}
         </Toolbar>
       </AppBar>
 
-      {/* ============================
-          5) Діалоги “Увійти” та “Тест”
-          ============================ */}
-      <Dialog open={loginOpen} onClose={closeLoginDialog} maxWidth="xs" fullWidth>
-        <LoginForm />
+      <Dialog open={loginOpen} onClose={() => setLoginOpen(false)} maxWidth="xs" fullWidth>
+        <LoginForm
+          onLoginSuccess={(uname) => {
+            setUser({ username: uname });
+            setLoginOpen(false);
+          }}
+        />
       </Dialog>
-      <Dialog open={testOpen} onClose={closeTestDialog} maxWidth="md" fullWidth>
+      <Dialog open={testOpen} onClose={() => setTestOpen(false)} maxWidth="md" fullWidth>
         <TestPage />
       </Dialog>
     </>

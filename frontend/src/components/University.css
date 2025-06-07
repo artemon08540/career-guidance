@@ -35,9 +35,10 @@
   font-size: 1.1rem;
   line-height: 1.7;
   margin-bottom: 40px; /* достатній відступ */
-  text-align: center;
+  text-align: center ;
   color: #333333;
 }
+
 
 /* 5. Контейнер для секцій 
    ТЗ: прибираємо власні display/flex/gap, залишаємо тільки відступ знизу */

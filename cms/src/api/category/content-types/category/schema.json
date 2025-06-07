@@ -34,6 +34,13 @@
     },
     "vector": {
       "type": "json"
+    },
+    "shortDescription": {
+      "type": "string",
+      "default": " "
+    },
+    "fullDescription": {
+      "type": "richtext"
     }
   }
 }

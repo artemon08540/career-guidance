@@ -7,6 +7,7 @@ import './assets/styles/global.css';
 import Header from './components/Header.tsx';
 import Main from './components/Main';
 import Footer from './components/Footer';
+import TestPage from './components/TestPage.tsx';
 
 const App = () => {
   return (
