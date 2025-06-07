@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import React, { useState, useEffect } from 'react';
 import {
   AppBar,
@@ -24,13 +23,17 @@ type NavItem =
   | { label: string; href: string }
   | { label: string; action: () => void };
 
-export default function Header() {
+interface HeaderProps {
+  testOpen: boolean;
+  setTestOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Header({ testOpen, setTestOpen }: HeaderProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [user, setUser] = useState<{ username: string } | null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
-  const [testOpen, setTestOpen] = useState(false);
   const [mobileAnchor, setMobileAnchor] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
@@ -73,7 +76,6 @@ export default function Header() {
     <>
       <AppBar position="static" color="primary" elevation={0}>
         <Toolbar className="header-toolbar">
-          {/* ЛОГО+ТЕКСТ — з посиланням на "/" */}
           <RouterLink to="/" className="header-brand">
             <img src="/images/logo.png" alt="Logo" className="header-logo__img" />
             <Typography variant="h6" className="header-logo__text">
@@ -132,6 +134,7 @@ export default function Header() {
         </Toolbar>
       </AppBar>
 
+      {/* Діалог входу */}
       <Dialog open={loginOpen} onClose={() => setLoginOpen(false)} maxWidth="xs" fullWidth>
         <LoginForm
           onLoginSuccess={(uname) => {
@@ -140,6 +143,8 @@ export default function Header() {
           }}
         />
       </Dialog>
+
+      {/* Діалог тесту */}
       <Dialog open={testOpen} onClose={() => setTestOpen(false)} maxWidth="md" fullWidth>
         <TestPage />
       </Dialog>
