@@ -20,18 +20,37 @@ export default {
   // Після будь-якої зміни (create/update/delete) — пересчет CVE
   async afterCreate()  { await recalcAllCats(); },
   async afterUpdate()  { await recalcAllCats(); },
-    async beforeDelete(event: { params: { where: { id: number }; questionId?: number } }) {
+  async beforeDelete(event: { params: { where: { id: number }; questionId?: number } }) {
     event.params.questionId = event.params.where.id;
   },
 
   async afterDelete(event: { params: { questionId?: number } }) {
     const id = event.params.questionId;
+
     if (id) {
-      await strapi.entityService.deleteMany(
-        'api::category-vector-entry.category-vector-entry',
-        { filters: { question: { id } } }
-      );
+      // Find related CVE ids first to avoid JOIN deletes that break on SQLite
+      const toRemove = await strapi.db
+        .query('api::category-vector-entry.category-vector-entry')
+        .findMany({ select: ['id'], where: { question: { id } } });
+
+      if (toRemove.length) {
+        await strapi.db
+          .query('api::category-vector-entry.category-vector-entry')
+          .deleteMany({ where: { id: { $in: toRemove.map(e => e.id) } } });
+      }
     }
+
+    // Clean up any entries whose question link became null
+    const orphaned = await strapi.db
+      .query('api::category-vector-entry.category-vector-entry')
+      .findMany({ select: ['id'], where: { question: null } });
+
+    if (orphaned.length) {
+      await strapi.db
+        .query('api::category-vector-entry.category-vector-entry')
+        .deleteMany({ where: { id: { $in: orphaned.map(e => e.id) } } });
+    }
+
     await recalcAllCats();
   },
 };
