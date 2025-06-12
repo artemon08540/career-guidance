@@ -86,8 +86,38 @@ export default {
     strapi.log.info(
       `🔔 [afterUpdate] Category id=${id}, wasVerified=${was}, nowVerified=${isVerified}`
     );
-    if (was === true && isVerified) {
-      await populateCategoryVectorEntries(id);
+      if (was === true && isVerified) {
+        await populateCategoryVectorEntries(id);
+      }
+    },
+
+  async beforeDelete(event: { params: { where: { id: number }; categoryId?: number } }) {
+    event.params.categoryId = event.params.where.id;
+  },
+
+  async afterDelete(event: { params: { categoryId?: number } }) {
+    const id = event.params.categoryId;
+
+    if (id) {
+      const toRemove = await strapi.db
+        .query('api::category-vector-entry.category-vector-entry')
+        .findMany({ select: ['id'], where: { category: { id } } });
+
+      if (toRemove.length) {
+        await strapi.db
+          .query('api::category-vector-entry.category-vector-entry')
+          .deleteMany({ where: { id: { $in: toRemove.map(e => e.id) } } });
+      }
+    }
+
+    const orphaned = await strapi.db
+      .query('api::category-vector-entry.category-vector-entry')
+      .findMany({ select: ['id'], where: { category: null } });
+
+    if (orphaned.length) {
+      await strapi.db
+        .query('api::category-vector-entry.category-vector-entry')
+        .deleteMany({ where: { id: { $in: orphaned.map(e => e.id) } } });
     }
   },
 };
