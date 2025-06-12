@@ -20,7 +20,20 @@ export default {
   // Після будь-якої зміни (create/update/delete) — пересчет CVE
   async afterCreate()  { await recalcAllCats(); },
   async afterUpdate()  { await recalcAllCats(); },
-  async afterDelete()  { await recalcAllCats(); },
+    async beforeDelete(event: { params: { where: { id: number }; questionId?: number } }) {
+    event.params.questionId = event.params.where.id;
+  },
+
+  async afterDelete(event: { params: { questionId?: number } }) {
+    const id = event.params.questionId;
+    if (id) {
+      await strapi.entityService.deleteMany(
+        'api::category-vector-entry.category-vector-entry',
+        { filters: { question: { id } } }
+      );
+    }
+    await recalcAllCats();
+  },
 };
 
 async function recalcAllCats() {

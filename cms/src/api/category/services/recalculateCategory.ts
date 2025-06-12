@@ -51,6 +51,7 @@ export async function recalculateCategory(strapi: any, categoryId: number): Prom
   ) as Array<{ value: number; question: { order: number } }>;
 
   const vector = rawEntries
+    .filter(e => e.question)
     .sort((a, b) => a.question.order - b.question.order)
     .map(e => e.value);
 
